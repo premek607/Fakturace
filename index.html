@@ -2399,11 +2399,14 @@ const Store = {
   },
   kontakty() { return Object.keys(this.files).filter(p => p.startsWith('kontakty/')).map(p => this.files[p]).sort((a, b) => (a.nazev || '').localeCompare(b.nazev || '', 'cs')); },
   sablony() { return Object.keys(this.files).filter(p => p.startsWith('sablony/')).map(p => this.files[p]).sort((a, b) => (a.nazev || '').localeCompare(b.nazev || '', 'cs')); },
+  /* balíček {cesta: obsah} uložený jako jeden soubor (např. import z iDokladu nahraný přímo na Disk) se rozbalí do paměti */
+  rozbal() { for (const p of Object.keys(this.files)) { const v = this.files[p]; if (!v || typeof v !== 'object' || Array.isArray(v) || p === 'firma.json' || p === 'nastaveni.json') continue;
+    const ks = Object.keys(v); if (ks.length && ks.every(k => /^(kontakty|sablony|cenik)\/[^/]+\.json$/.test(k))) for (const k of ks) if (!this.files[k]) this.files[k] = v[k]; } },
   docs() {
     const best = {};
     const put = (d, ver, path) => { if (!d || !d.cislo) return; const k = d.typ + '|' + d.cislo; if (!best[k] || ver >= best[k][0]) best[k] = [ver, d, path]; };
     const paths = Object.keys(this.files).sort();
-    for (const p of paths) if (p.startsWith('import/')) for (const d of (this.files[p] || [])) put(d, -1, p);
+    for (const p of paths) if (p.startsWith('import/')) for (const d of (Array.isArray(this.files[p]) ? this.files[p] : [])) if (d && d.cislo) put(d, -1, p);
     for (const p of paths) if (p.startsWith('vydane/') || p.startsWith('prijate/')) {
       const d = this.files[p], m = p.match(/\.v(\d+)\.json$/);
       put(d, m ? +m[1] : (+d.verze || 1), p);
@@ -3276,6 +3279,7 @@ function render() {
   const top = {vydana: 'vydane', prijata: 'prijate', kontakt: 'kontakty', sablona: 'sablony'}[cur.view.split('-')[0]] || cur.view;
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === top));
   const mob = TABS.some(t => t[0] === top) ? top : 'vice'; document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === mob));
+  try { Store.rozbal(); } catch (e) {}
   try { $('#main').innerHTML = (V[cur.view] || V.prehled)(cur.arg); if ($('#sum')) A.sum(); } catch (e) { $('#main').innerHTML = `<div class="card err">Chyba: ${esc(e.message)}</div>`; console.error(e); }
   status();
 }
@@ -3671,7 +3675,7 @@ V.nastaveni = () => {
   <div class="card" id="s-disk"><h3>Google Disk</h3><p class="muted">Data se ukládají do složky <b>_Fakturace/data</b> na tvém Google Disku. ${G.last ? 'Poslední synchronizace ' + new Date(G.last).toLocaleString('cs-CZ') + '.' : ''} ${dirty.length ? dirty.length + ' změn čeká na odeslání.' : ''}</p>
   <div class="grid">${fld('Google Client ID', 'clientId', cfg.clientId)}${fld('ID složky data (nepovinné)', 'folderId', cfg.folderId)}</div>
   <div class="row"><button class="pri" onclick="A.connect(true)">${tokenOk() ? 'Synchronizovat teď' : 'Uložit a připojit'}</button></div></div>
-  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.1</p></div>`;
+  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.2</p></div>`;
 };
 A.ulozNast = async () => { const v = collect($('#s-nast')); try { nextNumber(v.r_vydane, today(), []); nextNumber(v.r_prijate, today(), []); } catch (e) { return toast(e.message, true); }
   await saveNast({rady: {vydane: v.r_vydane, prijate: v.r_prijate}, faktura: {splatnost_dni: parseInt(v.f_splatnost, 10) || 14, text_cs: v.f_text_cs, text_en: v.f_text_en, text_de: v.f_text_de, barva: v.f_barva, epc_qr: !!v.f_epc},

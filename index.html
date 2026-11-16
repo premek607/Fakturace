@@ -3553,6 +3553,7 @@ V.prehled = () => {
 
 /* ---------- banka: Fio – načtení pohybů a párování ---------- */
 let bank = null;
+const fioTokeny = () => { if (!Array.isArray(cfg.fioTokens)) { cfg.fioTokens = cfg.fioToken ? [{nazev: 'Fio', token: cfg.fioToken}] : []; delete cfg.fioToken; } return cfg.fioTokens; };
 const workerKod = () => `export default { async fetch(req) {
   const cors = {'Access-Control-Allow-Origin': '${location.origin}', 'Access-Control-Allow-Headers': 'X-Fio-Token', 'Access-Control-Max-Age': '86400'};
   if (req.method === 'OPTIONS') return new Response(null, {headers: cors});
@@ -3562,7 +3563,7 @@ const workerKod = () => `export default { async fetch(req) {
   return new Response(await r.text(), {status: r.status, headers: {...cors, 'Content-Type': 'application/json'}});
 }};`;
 V.banka = () => {
-  const n = Store.nast(), auto = n.banka.proxy && cfg.fioToken, od = addDays(today(), -35);
+  const n = Store.nast(), auto = n.banka.proxy && fioTokeny().some(t => t.token), od = addDays(today(), -35);
   let body = '';
   if (bank) { const nav = bank.filter(b => b.stav === 'navrh'), nen = bank.filter(b => b.stav === 'nenalezeno' && b.tx.castka > 0), hot = bank.filter(b => b.stav === 'hotovo').length;
     const otev = Store.docs().filter(d => d.typ === 'vydana' && !d.storno && Banka.zbyva(d) > 0.004);
@@ -3576,16 +3577,22 @@ V.banka = () => {
   }
   return `<div class="hd"><h1>Banka</h1></div>
   <div class="card"><h3>Načíst pohyby z Fio banky</h3><div class="row"><label class="btn pri">Nahrát výpis (CSV nebo JSON)<input type="file" accept=".csv,.json,.txt" hidden onchange="A.bankSoubor(this.files[0])"></label>
-    ${auto ? `<input type="date" id="b_od" value="${od}"><input type="date" id="b_do" value="${today()}"><button onclick="A.bankFio()">Stáhnout z Fio</button>` : ''}</div>
+    ${auto ? `<input type="date" id="b_od" value="${od}"><input type="date" id="b_do" value="${today()}"><button onclick="A.bankFio()">Stáhnout z Fio${fioTokeny().length > 1 ? ' (' + fioTokeny().length + ' účty)' : ''}</button>` : ''}</div>
     <p class="muted">Výpis stáhneš v internetbankingu Fio: Přehledy → Pohyby na účtu → Export → CSV. ${auto ? '' : 'Automatické stahování jedním tlačítkem zapneš v <a href="#nastaveni">Nastavení → Banka</a>.'}
     Platby se párují podle variabilního symbolu, a pokud chybí (typicky u SEPA plateb v EUR), podle čísla faktury nalezeného kdekoli v textu platby. Shoda jen podle částky je vždy pouze návrh k potvrzení.</p></div>${body}`;
 };
-function bankNacti(text) { const txs = Banka.parseFio(text); bank = Banka.match(txs, Store.docs()); bank.forEach(b => { if (b.stav === 'navrh') b.ok = !!b.jiste; }); render(); toast(`Načteno ${txs.length} pohybů.`); }
+function bankNacti(text) { bankZpracuj(Banka.parseFio(text)); }
+function bankZpracuj(txs) { bank = Banka.match(txs, Store.docs()); bank.forEach(b => { if (b.stav === 'navrh') b.ok = !!b.jiste; }); render(); toast(`Načteno ${txs.length} pohybů.`); }
 A.bankSoubor = async file => { if (!file) return; try { let t = await file.text(); if (t.includes('�')) t = new TextDecoder('windows-1250').decode(await file.arrayBuffer()); bankNacti(t); } catch (e) { toast(e.message, true); } };
-A.bankFio = async () => { const n = Store.nast(), od = $('#b_od').value, doo = $('#b_do').value;
-  try { const r = await fetch(n.banka.proxy.replace(/\/+$/, '') + `/fio/${od}/${doo}`, {headers: {'X-Fio-Token': cfg.fioToken}});
-    if (r.status === 409) throw new Error('Fio dovoluje jeden dotaz za 30 sekund – zkus to za chvíli.'); if (!r.ok) throw new Error('Fio odpovědělo chybou ' + r.status + ' (zkontroluj token a adresu proxy).');
-    bankNacti(await r.text()); } catch (e) { toast(e.message === 'Failed to fetch' ? 'Proxy není dostupná – zkontroluj adresu v Nastavení.' : e.message, true); } };
+A.bankFio = async () => { const n = Store.nast(), od = $('#b_od').value, doo = $('#b_do').value, vse = [], chyby = [];
+  toast('Stahuji pohyby z Fio…');
+  for (const t of fioTokeny().filter(t => t.token)) {
+    try { const r = await fetch(n.banka.proxy.replace(/\/+$/, '') + `/fio/${od}/${doo}`, {headers: {'X-Fio-Token': t.token}});
+      if (r.status === 409) throw new Error('Fio dovoluje jeden dotaz za 30 sekund – zkus to za chvíli');
+      if (!r.ok) throw new Error('chyba ' + r.status + ' (zkontroluj token a adresu prostředníka)');
+      vse.push(...Banka.parseFio(await r.text()));
+    } catch (e) { chyby.push((t.nazev || 'účet') + ': ' + (e.message === 'Failed to fetch' ? 'prostředník není dostupný – zkontroluj adresu v Nastavení' : e.message)); } }
+  if (vse.length || !chyby.length) bankZpracuj(vse); if (chyby.length) toast(chyby.join(' · '), true); };
 A.bankRucne = (i, cislo) => { const b = bank[i]; if (!cislo) return; const d = Store.get(cislo, 'vydana'), menaOk = (d.mena || 'CZK') === b.tx.mena; Object.assign(b, {doc: d, jak: 'castka', stav: 'navrh', jiste: false, menaOk, rozdil: menaOk ? r2(Math.abs(b.tx.castka) - Banka.zbyva(d)) : null, ok: true}); render(); };
 A.bankZapis = async () => { const sel = bank.filter(b => b.stav === 'navrh' && b.ok); if (!sel.length) return toast('Není nic zaškrtnuto.', true); let nOk = 0;
   for (const b of sel) { const d = Store.get(b.doc.cislo, b.doc.typ), t = b.tx, cizi = d.mena && d.mena !== 'CZK', u = {datum: t.datum, castka: Math.abs(t.castka), banka_id: t.id, zdroj: 'fio'};
@@ -3656,13 +3663,15 @@ V.nastaveni = () => {
   <h3>Parametry roku ${rok}</h3><p class="muted">Hodnoty vyhlašované každý rok. ${p.odhad ? '<b>Pro tento rok nejsou v aplikaci úřední hodnoty – doplň je.</b>' : 'Uprav jen při změně zákona.'}</p>
   <div class="grid">${fld('Hranice pro sazbu 23 %', 'hran23', p.hran23, 'number')}${fld('Sleva na poplatníka', 'sleva', p.sleva, 'number')}${fld('Min. měsíční základ – sociální', 'soc_min', p.soc_min, 'number')}${fld('Max. roční základ – sociální', 'soc_max', p.soc_max, 'number')}${fld('Min. měsíční základ – zdravotní', 'zdr_min', p.zdr_min, 'number')}${fld('Vyměřovací základ soc. (% ze základu daně)', 'soc_pct', p.soc_pct, 'number')}</div>
   <div class="row"><button class="pri" onclick="A.ulozDanNast(${rok})">Uložit daňové údaje</button></div></div>
-  <div class="card" id="s-banka"><h3>Banka (Fio)</h3><p class="muted">Výpis jde vždy nahrát ručně v sekci Banka. Pro stahování jedním tlačítkem je potřeba malý prostředník, protože Fio nedovoluje webovým stránkám volat své API přímo. Prostředník si zdarma založíš ve vlastním účtu Cloudflare (Workers) vložením kódu níže; token tak prochází jen tvým vlastním účtem. Token si ve Fio vytvoř s oprávněním <b>pouze ke čtení</b>. Ukládá se jen v tomto zařízení, ne na Disk.</p>
-  <div class="grid">${fld('Adresa prostředníka (https://…workers.dev)', 'proxy', n.banka.proxy)}${fld('Fio API token (jen čtení)', 'fioToken', cfg.fioToken || '', 'password', 'autocomplete="off"')}</div>
+  <div class="card" id="s-banka"><h3>Banka (Fio)</h3><p class="muted">Výpis jde vždy nahrát ručně v sekci Banka. Pro stahování jedním tlačítkem je potřeba malý prostředník, protože Fio nedovoluje webovým stránkám volat své API přímo. Prostředník si zdarma založíš ve vlastním účtu Cloudflare (Workers) vložením kódu níže; token tak prochází jen tvým vlastním účtem. Pro každý účet (CZK, EUR) si ve Fio vytvoř vlastní token s oprávněním <b>pouze ke čtení</b>. Tokeny se ukládají jen v tomto zařízení, ne na Disk.</p>
+  <div class="grid">${fld('Adresa prostředníka (https://…workers.dev)', 'proxy', n.banka.proxy)}</div>
+  <h3>Tokeny účtů</h3><div id="tok">${fioTokeny().concat(fioTokeny().length ? [] : [{nazev: '', token: ''}]).map((t, i) => `<div class="row tk"><input placeholder="Název účtu (např. EUR)" value="${esc(t.nazev)}" style="width:190px"><input type="password" autocomplete="off" placeholder="Fio API token (jen čtení)" value="${esc(t.token)}" style="width:330px;max-width:100%"><button class="x" title="Odebrat" onclick="this.parentNode.remove()">×</button></div>`).join('')}</div>
+  <div class="row"><button class="sm" onclick="document.querySelector('#tok').insertAdjacentHTML('beforeend','<div class=&quot;row tk&quot;><input placeholder=&quot;Název účtu (např. CZK)&quot; style=&quot;width:190px&quot;><input type=&quot;password&quot; autocomplete=&quot;off&quot; placeholder=&quot;Fio API token (jen čtení)&quot; style=&quot;width:330px;max-width:100%&quot;><button class=&quot;x&quot; onclick=&quot;this.parentNode.remove()&quot;>×</button></div>')">+ další účet</button></div>
   <div class="row"><button class="pri" onclick="A.ulozBanku()">Uložit</button><button onclick="navigator.clipboard.writeText(workerKod()).then(()=>toast('Kód zkopírován.'))">Zkopírovat kód prostředníka</button></div><pre class="code">${esc(workerKod())}</pre></div>
   <div class="card" id="s-disk"><h3>Google Disk</h3><p class="muted">Data se ukládají do složky <b>_Fakturace/data</b> na tvém Google Disku. ${G.last ? 'Poslední synchronizace ' + new Date(G.last).toLocaleString('cs-CZ') + '.' : ''} ${dirty.length ? dirty.length + ' změn čeká na odeslání.' : ''}</p>
   <div class="grid">${fld('Google Client ID', 'clientId', cfg.clientId)}${fld('ID složky data (nepovinné)', 'folderId', cfg.folderId)}</div>
   <div class="row"><button class="pri" onclick="A.connect(true)">${tokenOk() ? 'Synchronizovat teď' : 'Uložit a připojit'}</button></div></div>
-  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.0</p></div>`;
+  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.1</p></div>`;
 };
 A.ulozNast = async () => { const v = collect($('#s-nast')); try { nextNumber(v.r_vydane, today(), []); nextNumber(v.r_prijate, today(), []); } catch (e) { return toast(e.message, true); }
   await saveNast({rady: {vydane: v.r_vydane, prijate: v.r_prijate}, faktura: {splatnost_dni: parseInt(v.f_splatnost, 10) || 14, text_cs: v.f_text_cs, text_en: v.f_text_en, text_de: v.f_text_de, barva: v.f_barva, epc_qr: !!v.f_epc},
@@ -3676,7 +3685,7 @@ A.ulozDanNast = async rok => { const v = collect($('#s-dan')), def = Dane.PARAM[
   n.parametry = Object.assign({}, n.parametry || {}); if (Object.keys(par).length) n.parametry[rok] = par; else delete n.parametry[rok];
   await save('nastaveni.json', n); toast('Uloženo.'); render(); };
 A.ulozBanku = async () => { const v = collect($('#s-banka')); if (v.proxy && !/^https:\/\//.test(v.proxy)) return toast('Adresa prostředníka musí začínat https://', true);
-  cfg.fioToken = v.fioToken; LS.set('fak_cfg', cfg); await saveNast({banka: {proxy: v.proxy}}); toast('Uloženo.'); render(); };
+  cfg.fioTokens = [...document.querySelectorAll('#tok .tk')].map(r => { const i = r.querySelectorAll('input'); return {nazev: i[0].value.trim(), token: i[1].value.trim()}; }).filter(t => t.token); delete cfg.fioToken; LS.set('fak_cfg', cfg); await saveNast({banka: {proxy: v.proxy}}); toast('Uloženo.'); render(); };
 A.connect = async fromForm => { try { if (fromForm) { const v = collect($('#s-disk')); cfg = Object.assign({}, cfg, {clientId: v.clientId, folderId: v.folderId}); LS.set('fak_cfg', cfg); }
   if (!tokenOk()) await gLogin(); await sync(); toast('Synchronizováno s Google Diskem.'); render(); } catch (e) { toast(e.message, true); status(); } };
 

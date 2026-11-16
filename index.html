@@ -3259,7 +3259,7 @@ A.exportAll = () => download('fakturace-zaloha-' + today() + '.json', JSON.strin
 A.importAll = async file => { if (!file) return; try { const j = JSON.parse(await file.text()); if (!j || typeof j !== 'object' || Array.isArray(j)) throw 0; for (const p in j) { Store.files[p] = j[p]; if (!dirty.includes(p)) dirty.push(p); } persist(); toast('Záloha načtena (' + Object.keys(j).length + ' souborů).'); render(); } catch (e) { toast('Soubor není platná záloha.', true); } };
 
 /* ====== Fakturace v2 – rozhraní: navigace, seznamy, faktury (cs/en/de), úhrady, kontakty, ceník ====== */
-const VERZE = '2.4';
+const VERZE = '2.5';
 const IC = {
   prehled: '<path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/>', vydane: '<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h3"/>',
   prijate: '<path d="M4 14v6h16v-6"/><path d="M12 3v11m0 0-4-4m4 4 4-4"/>', banka: '<path d="M3 10 12 4l9 6"/><path d="M5 10v8m4.700-8v8m4.600-8v8M19 10v8M3 20h18"/>',
@@ -3711,6 +3711,15 @@ document.addEventListener('click', e => { if (cfg.clientId && !tokenOk() && Date
 document.addEventListener('visibilitychange', () => { if (!document.hidden) autoSync(false); });
 setInterval(() => { if (!document.hidden) autoSync(false); }, 120000);
 
+/* ---------- kontrola nové verze: obejde mezipaměť prohlížeče, aby se aktualizace projevila hned ---------- */
+async function kontrolaVerze() {
+  if (!/^https?:/.test(location.protocol)) return;
+  try { const t = await (await fetch(location.pathname + '?t=' + Date.now(), {cache: 'no-store'})).text(), m = t.match(/const VERZE = '([\d.]+)'/);
+    const novejsi = (a, b) => { const x = a.split('.').map(Number), y = b.split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) > (y[i] || 0); return false; };
+    if (m && novejsi(m[1], VERZE) && sessionStorage.getItem('fak_upd') !== m[1]) { sessionStorage.setItem('fak_upd', m[1]); location.replace(location.pathname + '?v=' + m[1] + location.hash); } } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden && !/-form$/.test(cur.view)) kontrolaVerze(); });
+
 /* ---------- start ---------- */
 window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (TOP.includes(v) && v !== cur.view && v !== 'hledat') go(v); });
 window.addEventListener('DOMContentLoaded', () => {
@@ -3718,6 +3727,7 @@ window.addEventListener('DOMContentLoaded', () => {
   try { const t = JSON.parse(sessionStorage.getItem('fak_tok') || 'null'); if (t && Date.now() < t.exp) { G.token = t.token; G.exp = t.exp; } } catch (e) {}
   const v = location.hash.slice(1); go(TOP.includes(v) && v !== 'hledat' ? v : 'prehled');
   if (tokenOk()) sync().then(render).catch(e => toast(e.message, true));
+  kontrolaVerze();
 });
 </script>
 </body></html>

@@ -3327,7 +3327,9 @@ V.vydane = () => { const sab = Store.sablony();
   ${filtrBar('vydane', 'vydana', [['', 'Všechny stavy'], ['otevrene', 'Neuhrazené'], ['po', 'Po splatnosti'], ['uhrazeno', 'Uhrazené'], ['storno', 'Stornované']])}<div id="list">${tabVydane(filtruj('vydana'), true)}</div>`; };
 
 /* ---------- faktura: náhled k tisku (cs / en / de) ---------- */
+const sUctem = d => { if (d.ucet && d.ucet.iban) return d; const u = (Store.firma().ucty || {})[d.mena || 'CZK']; return u ? Object.assign({}, d, {ucet: {cislo: u.cislo, iban: u.iban, iban_tisk: u.iban_tisk || ibanTisk(u.iban), swift: u.swift, banka: u.banka}}) : d; };
 function invoiceHtml(d) {
+  d = sUctem(d);
   const f = Store.firma(), n = Store.nast(), lang = L10N[d.jazyk] ? d.jazyk : 'cs', L = L10N[lang], p = d.partner || {}, u = d.ucet || {}, mena = d.mena || 'CZK', cizi = mena !== 'CZK';
   const rec = {}; for (const it of d.polozky) { rec[it.sazba] = rec[it.sazba] || [0, 0]; rec[it.sazba][0] += +it.zaklad; rec[it.sazba][1] += +it.dph; }
   const stat = p.stat && STATY[String(p.stat).toUpperCase()] ? statNazev(p.stat, lang) : (p.stat_nazev || (p.stat && p.stat !== 'CZ' ? p.stat : L.stat));
@@ -3359,7 +3361,7 @@ A.mail = async (c, upo) => { const d = Store.get(c, 'vydana'), L = L10N[d.jazyk]
   location.href = `mailto:${encodeURIComponent((d.partner || {}).email || k.email || '')}?subject=${encodeURIComponent(vypln(upo ? L.upo_predmet : L.mail_predmet, d))}&body=${encodeURIComponent(vypln(upo ? L.upo_text : L.mail_text, d))}`;
   toast('Otevírám e-mail. PDF faktury si předtím ulož tlačítkem Tisk / PDF a přilož ho ke zprávě.');
   if (!upo && !d.odeslano) { await novaVerze(d, {odeslano: today()}); render(); } };
-A.isdoc = c => { const d = Store.get(c, 'vydana'); download(d.cislo + '.isdoc', ISDOC.xml(d, Store.firma()), 'application/xml'); };
+A.isdoc = c => { const d = Store.get(c, 'vydana'); download(d.cislo + '.isdoc', ISDOC.xml(sUctem(d), Store.firma()), 'application/xml'); };
 A.tisk = c => { const t = document.title; document.title = 'Faktura ' + c; window.print(); setTimeout(() => document.title = t, 800); };
 
 V.vydana = cislo => {

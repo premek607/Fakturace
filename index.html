@@ -2831,12 +2831,13 @@ const LS = {
 let cfg = Object.assign({clientId: '', folderId: '', fioToken: ''}, LS.get('fak_cfg', {}));
 Store.files = LS.get('fak_files', {});
 let dirty = LS.get('fak_dirty', []);
-const G = {token: null, exp: 0, ids: LS.get('fak_ids', {}), folders: {}, busy: false, last: LS.get('fak_last', null)};
+const G = {token: null, exp: 0, ids: LS.get('fak_ids', {}), folders: {}, busy: false, zkus: 0, last: LS.get('fak_last', null)};
 
 function toast(msg, err) { const t = $('#toast'); t.textContent = msg; t.className = 'show' + (err ? ' err' : ''); clearTimeout(toast.t); toast.t = setTimeout(() => t.className = '', err ? 7000 : 3500); }
 function persist() { LS.set('fak_files', Store.files); LS.set('fak_dirty', dirty); LS.set('fak_ids', G.ids); }
 async function save(path, obj) {
   Store.files[path] = obj; if (!dirty.includes(path)) dirty.push(path); persist();
+  if (cfg.clientId && !tokenOk() && Date.now() - G.zkus > 60000) { G.zkus = Date.now(); try { await gLogin(); } catch (e) {} }
   if (tokenOk()) { try { await pushDirty(); } catch (e) { toast('Uloženo jen v tomto zařízení: ' + e.message, true); } }
   status();
 }
@@ -3280,7 +3281,8 @@ function render() {
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === top));
   const mob = TABS.some(t => t[0] === top) ? top : 'vice'; document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === mob));
   try { Store.rozbal(); } catch (e) {}
-  try { $('#main').innerHTML = (V[cur.view] || V.prehled)(cur.arg); if ($('#sum')) A.sum(); } catch (e) { $('#main').innerHTML = `<div class="card err">Chyba: ${esc(e.message)}</div>`; console.error(e); }
+  const nesync = cfg.clientId && dirty.length && !tokenOk() ? `<div class="card warn noprint">${ks(dirty.length, 'změna není', 'změny nejsou', 'změn není')} uložena na Google Disku, ostatní zařízení ji neuvidí. <button class="sm" onclick="A.connect()">Odeslat na Disk</button></div>` : '';
+  try { $('#main').innerHTML = nesync + (V[cur.view] || V.prehled)(cur.arg); if ($('#sum')) A.sum(); } catch (e) { $('#main').innerHTML = `<div class="card err">Chyba: ${esc(e.message)}</div>`; console.error(e); }
   status();
 }
 function status() {
@@ -3675,7 +3677,7 @@ V.nastaveni = () => {
   <div class="card" id="s-disk"><h3>Google Disk</h3><p class="muted">Data se ukládají do složky <b>_Fakturace/data</b> na tvém Google Disku. ${G.last ? 'Poslední synchronizace ' + new Date(G.last).toLocaleString('cs-CZ') + '.' : ''} ${dirty.length ? dirty.length + ' změn čeká na odeslání.' : ''}</p>
   <div class="grid">${fld('Google Client ID', 'clientId', cfg.clientId)}${fld('ID složky data (nepovinné)', 'folderId', cfg.folderId)}</div>
   <div class="row"><button class="pri" onclick="A.connect(true)">${tokenOk() ? 'Synchronizovat teď' : 'Uložit a připojit'}</button></div></div>
-  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.2</p></div>`;
+  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.3</p></div>`;
 };
 A.ulozNast = async () => { const v = collect($('#s-nast')); try { nextNumber(v.r_vydane, today(), []); nextNumber(v.r_prijate, today(), []); } catch (e) { return toast(e.message, true); }
   await saveNast({rady: {vydane: v.r_vydane, prijate: v.r_prijate}, faktura: {splatnost_dni: parseInt(v.f_splatnost, 10) || 14, text_cs: v.f_text_cs, text_en: v.f_text_en, text_de: v.f_text_de, barva: v.f_barva, epc_qr: !!v.f_epc},
@@ -3692,6 +3694,20 @@ A.ulozBanku = async () => { const v = collect($('#s-banka')); if (v.proxy && !/^
   cfg.fioTokens = [...document.querySelectorAll('#tok .tk')].map(r => { const i = r.querySelectorAll('input'); return {nazev: i[0].value.trim(), token: i[1].value.trim()}; }).filter(t => t.token); delete cfg.fioToken; LS.set('fak_cfg', cfg); await saveNast({banka: {proxy: v.proxy}}); toast('Uloženo.'); render(); };
 A.connect = async fromForm => { try { if (fromForm) { const v = collect($('#s-disk')); cfg = Object.assign({}, cfg, {clientId: v.clientId, folderId: v.folderId}); LS.set('fak_cfg', cfg); }
   if (!tokenOk()) await gLogin(); await sync(); toast('Synchronizováno s Google Diskem.'); render(); } catch (e) { toast(e.message, true); status(); } };
+
+/* ---------- automatická synchronizace: po otevření, po návratu do aplikace a každé 2 minuty ---------- */
+let autoBezi = false;
+async function autoSync(gesto) {
+  if (!cfg.clientId || G.busy || autoBezi || !navigator.onLine) return; autoBezi = true;
+  try { if (!tokenOk()) { if (!gesto) return; await gLogin(); }
+    const pred = JSON.stringify(G.ids); await sync();
+    const ae = document.activeElement, pise = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.id !== 'q';
+    if (JSON.stringify(G.ids) !== pred && !/-form$/.test(cur.view) && !pise && !bank && !cenEd && !($('#ask') && $('#ask').innerHTML)) render(); else status();
+  } catch (e) { status(); } finally { autoBezi = false; }
+}
+document.addEventListener('pointerdown', e => { if (cfg.clientId && !tokenOk() && Date.now() - G.zkus > 60000 && !/-form$/.test(cur.view) && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) { G.zkus = Date.now(); autoSync(true); } }, true);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) autoSync(false); });
+setInterval(() => { if (!document.hidden) autoSync(false); }, 120000);
 
 /* ---------- start ---------- */
 window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (TOP.includes(v) && v !== cur.view && v !== 'hledat') go(v); });

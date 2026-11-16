@@ -1,40 +1,56 @@
 <!DOCTYPE html>
-<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fakturace</title><meta name="robots" content="noindex">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fakturace"><meta name="theme-color" content="#14324a">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314324a'/%3E%3Cpath d='M10 8h12v3H13.5v4H20v3h-6.5v6H10z' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fakturace"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#0f1b2d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f6bff'/%3E%3Cpath d='M10 8h12v3.2H13.6v3.9H20v3.2h-6.4V24H10z' fill='%23fff'/%3E%3C/svg%3E">
 <style>
-:root{--ink:#17222d;--mut:#667685;--line:#dfe5ea;--bg:#f4f6f8;--pri:#14324a;--acc:#0b7a6b;--bad:#b3261e;--warn:#8a5a00}
-*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
-header{background:var(--pri);color:#fff;position:sticky;top:0;z-index:5}
-.hb{display:flex;align-items:center;gap:14px;padding:10px 16px;max-width:1180px;margin:auto}.hb b{font-size:17px;letter-spacing:.2px}#sync{margin-left:auto;font-size:13px;opacity:.9}#sync a{color:#fff}
-nav{display:flex;gap:2px;overflow-x:auto;max-width:1180px;margin:auto;padding:0 10px}nav a{color:#cfdbe5;text-decoration:none;padding:9px 12px;white-space:nowrap;border-bottom:3px solid transparent;font-size:14px}nav a.on{color:#fff;border-color:#5fd0bd}
-main{max-width:1180px;margin:auto;padding:18px 16px 60px}h1{font-size:24px;margin:6px 0 14px}h2{font-size:17px;margin:24px 0 8px}h3{font-size:15px;margin:16px 0 8px}h3:first-child{margin-top:0}
-.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:6px}
-.stat span{display:block;color:var(--mut);font-size:13px}.stat b{display:block;font-size:22px;margin:4px 0}.stat small{color:var(--mut)}
-.warn{border-color:#e6c36a;background:#fff8e1;color:var(--warn)}.err{border-color:#e0a09b;background:#fdecea;color:var(--bad)}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.muted{color:var(--mut)}.r{text-align:right}.big{font-size:18px}
-button,.btn,select,input,textarea{font:inherit}button,.btn{border:1px solid #c3ced7;background:#fff;color:var(--ink);padding:8px 13px;border-radius:8px;cursor:pointer}button:hover,.btn:hover{background:#eef2f5}
-button.pri{background:var(--acc);border-color:var(--acc);color:#fff}button.pri:hover{background:#096457}button.dng{color:var(--bad);border-color:#e0a09b}button.x{padding:3px 9px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px}.f{display:flex;flex-direction:column;gap:3px}.f span{font-size:12.5px;color:var(--mut)}.f.wide{margin-top:10px}.f.chk{flex-direction:row;align-items:center;gap:8px}.f.chk span{font-size:14px;color:var(--ink)}
-input,select,textarea{border:1px solid #c3ced7;border-radius:7px;padding:7px 9px;background:#fff;color:var(--ink);width:100%}input[type=checkbox]{width:auto}input[type=color]{padding:2px;height:36px}input:focus,select:focus,textarea:focus{outline:2px solid #5fd0bd;border-color:var(--acc)}.row select{width:auto}
-.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;background:#fff}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12.5px;color:var(--mut);font-weight:600;white-space:nowrap}th.r,td.r{text-align:right}td.r{white-space:nowrap}tr.clk{cursor:pointer}tr.clk:hover{background:#f3f7f9}
-table.items{margin:14px 0 8px}table.items td{padding:4px 4px;border:0}table.items input.n{width:110px;text-align:right}table.items input.u{width:60px}table.items td:first-child{min-width:220px;width:45%}table.items select{width:auto}
-.sum{margin:14px 0;text-align:right}.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#eef2f5;color:var(--mut);white-space:nowrap}.tag.ok{background:#dff3ee;color:#0a5c50}.tag.bad{background:#fdecea;color:var(--bad)}.tag.gray{background:#e6e6e6}
-.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin-bottom:12px}.kv span{color:var(--mut)}.pay{display:flex;gap:24px;flex-wrap:wrap;align-items:center}.qr{text-align:center}.qr svg{width:150px;height:150px;display:block}.qr small{font-size:11px}
-#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);background:#17222d;color:#fff;padding:10px 16px;border-radius:9px;max-width:92vw;transition:.25s;z-index:9;opacity:0}#toast.show{transform:translateX(-50%);opacity:1}#toast.err{background:var(--bad)}
+:root{--ink:#111827;--mut:#6b7280;--line:#e5e9f0;--bg:#f4f6fa;--card:#fff;--side:#0f1b2d;--side2:#18283f;--acc:#2f6bff;--acc2:#1f55de;--accbg:#eaf0ff;--ok:#0e9f6e;--okbg:#e3f6ee;--bad:#d92d20;--badbg:#fdecea;--warn:#b25e09;--warnbg:#fff4e0;--r:12px;--sh:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06)}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font:14.5px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+#app{display:grid;grid-template-columns:232px 1fr;min-height:100%}
+#side{background:var(--side);color:#c7d2e3;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:14px 10px;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 10px 16px;color:#fff;font-weight:700;font-size:17px;letter-spacing:.2px}.brand i{width:30px;height:30px;border-radius:9px;background:var(--acc);display:grid;place-items:center;font-style:normal;font-weight:800}
+#side a{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:#c7d2e3;font-weight:500;margin-bottom:2px}#side a:hover{background:var(--side2);text-decoration:none;color:#fff}#side a.on{background:var(--acc);color:#fff}
+#side svg,#tabs svg{width:19px;height:19px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#side .sep{margin:10px 11px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#7f8ea6}
+#sync{margin-top:auto;padding:10px 11px;font-size:12.5px;color:#9fb0c8;border-top:1px solid #22344f}#sync a{color:#fff;display:inline;padding:0;font-weight:600}#sync a:hover{background:none;text-decoration:underline}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#64748b;margin-right:6px}.dot.ok{background:#22c55e}.dot.w{background:#f59e0b}
+#top{display:flex;align-items:center;gap:10px;padding:12px 26px;background:rgba(244,246,250,.9);backdrop-filter:blur(8px);position:sticky;top:0;z-index:5;border-bottom:1px solid transparent}
+#q{flex:1;max-width:420px;border:1px solid var(--line);border-radius:10px;padding:9px 12px 9px 36px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") 10px center/18px no-repeat}
+#top .sp{flex:1}#mtitle{display:none;font-weight:700;font-size:17px}
+main{padding:8px 26px 80px;max-width:1240px;width:100%}h1{font-size:23px;margin:10px 0 16px;letter-spacing:-.2px}h2{font-size:16.5px;margin:26px 0 10px}h3{font-size:14.5px;margin:18px 0 10px}h3:first-child{margin-top:0}
+.hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 16px}.hd h1{margin:0;flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--sh)}.card.flat{padding:0;overflow:hidden}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:14px;margin-bottom:14px}.cards .card{margin:0}
+.stat span{display:block;color:var(--mut);font-size:12.5px;font-weight:500}.stat b{display:block;font-size:22px;margin:6px 0 2px;letter-spacing:-.3px}.stat small{color:var(--mut)}.stat.bad b{color:var(--bad)}.stat.ok b{color:var(--ok)}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:14px}.two>.card{margin:0}.two{align-items:start;margin-bottom:14px}.only-m{display:none!important}
+.warn{border-color:#f3d39a;background:var(--warnbg);color:var(--warn)}.err{border-color:#f1b0aa;background:var(--badbg);color:var(--bad)}.info{border-color:#c9d8ff;background:var(--accbg);color:#1e3a8a}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;align-items:center}.muted{color:var(--mut)}.r{text-align:right}.big{font-size:18px}.nw{white-space:nowrap}
+button,.btn,select,input,textarea{font:inherit}button,.btn{border:1px solid #d5dbe5;background:#fff;color:var(--ink);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}button:hover,.btn:hover{background:#f3f5f9;text-decoration:none}
+button.pri,.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}button.pri:hover{background:var(--acc2)}button.dng{color:var(--bad);border-color:#f1b0aa}button.x{padding:4px 10px}button.sm{padding:5px 10px;font-size:13px}button:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 14px}.f{display:flex;flex-direction:column;gap:4px;min-width:0}.f span{font-size:12.5px;color:var(--mut);font-weight:500}.f.wide{margin-top:12px}.f.chk{flex-direction:row;align-items:center;gap:8px}.f.chk span{font-size:14px;color:var(--ink)}
+input,select,textarea{border:1px solid #d5dbe5;border-radius:9px;padding:8px 10px;background:#fff;color:var(--ink);width:100%}input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc)}input[type=color]{padding:2px;height:38px}input:focus,select:focus,textarea:focus{outline:3px solid #cfdcff;border-color:var(--acc)}.row select,.row input{width:auto}.row input.s{min-width:220px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{font-size:11.5px;color:var(--mut);font-weight:600;white-space:nowrap;text-transform:uppercase;letter-spacing:.5px;background:#fafbfd}th.r,td.r{text-align:right}td.r{white-space:nowrap;font-variant-numeric:tabular-nums}tr.clk{cursor:pointer}tr.clk:hover{background:#f6f8fc}tbody tr:last-child td{border-bottom:0}tfoot td{font-weight:700;background:#fafbfd;border-top:1px solid var(--line)}
+table.items{margin:14px 0 8px}table.items th{background:none;padding:4px}table.items td{padding:4px;border:0}table.items input.n{width:104px;text-align:right}table.items input.u{width:58px}table.items td:first-child{min-width:230px;width:45%}table.items select{width:auto}
+.sum{margin:14px 0;text-align:right}.tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:#eef1f6;color:#475467;white-space:nowrap}.tag.ok{background:var(--okbg);color:#067647}.tag.bad{background:var(--badbg);color:var(--bad)}.tag.gray{background:#e5e7eb;color:#4b5563}.tag.blue{background:var(--accbg);color:var(--acc2)}.tag.warn{background:var(--warnbg);color:var(--warn);border:0}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:7px 20px;margin-bottom:12px}.kv span{color:var(--mut)}.pay{display:flex;gap:24px;flex-wrap:wrap;align-items:center}.qr{text-align:center}.qr svg{width:150px;height:150px;display:block}.qr small{font-size:11px}
+.chart{width:100%;height:auto;display:block}.chart text{font-size:10px;fill:#8a94a6}.lst{list-style:none;margin:0;padding:0}.lst li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.lst li:last-child{border:0}.bar{height:6px;border-radius:9px;background:#eef1f6;margin-top:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);border-radius:9px}
+pre.code{background:#0f1b2d;color:#d7e3f7;padding:14px;border-radius:10px;overflow:auto;font-size:12px;line-height:1.5;max-height:260px}
+#toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(80px);background:#111827;color:#fff;padding:11px 18px;border-radius:10px;max-width:92vw;transition:.25s;z-index:99;opacity:0;box-shadow:0 8px 24px rgba(0,0,0,.25)}#toast.show{transform:translateX(-50%);opacity:1}#toast.err{background:var(--bad)}
+#tabs{display:none}
 /* faktura */
-.paper{background:#fff;border:1px solid var(--line);max-width:820px;margin:10px auto;padding:34px 38px;font-size:13px;color:#111}.paper small{display:block;color:#555;font-size:11.5px;margin-bottom:2px}
-.ph{display:grid;grid-template-columns:1fr 1fr;gap:26px}.ph>div+div{border-left:1px solid #ccc;padding-left:26px}.pc{margin-top:12px;color:#333}.pt{font-size:17px;font-weight:700}.pn{display:inline-block;border:1px solid #111;padding:5px 18px;font-size:16px;font-weight:700;margin:8px 0 16px}
-.pd{display:flex;flex-wrap:wrap;gap:6px 30px;margin:22px 0 10px}.pb{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:14px;align-items:center;background:var(--c);color:#fff;padding:14px 16px;margin:0 -38px;padding-left:38px;padding-right:38px}.pb small{color:#fff;opacity:.85}.pb .qr{background:#fff;padding:4px;color:#111}.pb .qr svg{width:104px;height:104px}.pb .qr small{color:#111}
-.pi,.pr{margin-top:20px}.pi th,.pr th{border-bottom:1px solid #777;color:#111}.pi td,.pr td{border-bottom:1px solid #eee;padding:6px 8px}.pr{width:62%;margin-left:auto}.ptx{margin:14px 0}
+.paper{background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:var(--sh);max-width:820px;margin:10px auto;padding:34px 38px;font-size:13px;color:#111}.paper small{display:block;color:#555;font-size:11.5px;margin-bottom:2px}
+.ph{display:grid;grid-template-columns:1fr 1fr;gap:26px}.ph>div+div{border-left:1px solid #ccc;padding-left:26px}.pc{margin-top:12px;color:#333}.pt{font-size:17px;font-weight:700}.pn{display:inline-block;border:1px solid #111;padding:5px 18px;font-size:16px;font-weight:700;margin:8px 0 16px}.plogo{max-height:56px;max-width:220px;display:block;margin-bottom:12px}
+.pd{display:flex;flex-wrap:wrap;gap:6px 30px;margin:22px 0 10px}.pb{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:14px;align-items:center;background:var(--c);color:#fff;padding:14px 38px;margin:0 -38px}.pb small{color:#fff;opacity:.85}.pb .qr{background:#fff;padding:4px;color:#111;border-radius:3px}.pb .qr svg{width:104px;height:104px}.pb .qr small{color:#111}
+.pi,.pr{margin-top:20px}.pi th,.pr th{border-bottom:1px solid #777;color:#111;background:none;text-transform:none;letter-spacing:0;font-size:12px;padding:6px 8px}.pi td,.pr td{border-bottom:1px solid #eee;padding:6px 8px}.pr{width:62%;margin-left:auto}.ptx{margin:14px 0}.phint{margin:12px 0;padding:8px 12px;border-left:3px solid var(--c);background:#f6f8fb}
 .ptot{display:flex;justify-content:space-between;background:var(--c);color:#fff;padding:10px 16px;margin:14px 0 6px auto;width:62%;font-size:15px}.pf{border-top:1px solid #ccc;margin-top:36px;padding-top:6px;font-size:11px;color:#555}
-@media(max-width:640px){.ph{grid-template-columns:1fr}.ph>div+div{border:0;padding:0}.pb{grid-template-columns:1fr 1fr}.pr,.ptot{width:100%}.paper{padding:18px}.pb{margin:0 -18px;padding-left:18px;padding-right:18px}}
-@media print{header,.noprint,#toast{display:none!important}body{background:#fff}main{padding:0;max-width:none}.paper{border:0;margin:0;max-width:none;padding:6mm 8mm}.pb{margin:0 -8mm;padding-left:8mm;padding-right:8mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:8mm}}
+@media(max-width:860px){#app{display:block}#side{display:none}#top{padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top))}#mtitle{display:block}#q{max-width:none}main{padding:6px 14px 96px}.two{grid-template-columns:1fr}
+ #tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:6;padding-bottom:env(safe-area-inset-bottom)}#tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px 7px;font-size:10.5px;color:var(--mut);font-weight:600}#tabs a.on{color:var(--acc)}#tabs a:hover{text-decoration:none}
+ .hide-m{display:none!important}.only-m{display:inline-flex!important}h1{font-size:20px}th,td{padding:9px 6px;font-size:13px}th{font-size:10.5px}td small.muted{display:none}td b{font-size:12.5px}.tag{font-size:11px;padding:2px 7px}th:first-child,td:first-child{padding-left:10px}.cards{grid-template-columns:1fr 1fr;gap:10px}.stat b{font-size:18px}
+ .ph{grid-template-columns:1fr}.ph>div+div{border:0;padding:0}.pb{grid-template-columns:1fr 1fr;margin:0 -18px;padding:14px 18px}.pr,.ptot{width:100%}.paper{padding:18px}}
+@media print{#side,#top,#tabs,.noprint,#toast{display:none!important}#app{display:block}body{background:#fff}main{padding:0;max-width:none}.paper{border:0;box-shadow:none;margin:0;max-width:none;padding:6mm 8mm}.pb{margin:0 -8mm;padding-left:8mm;padding-right:8mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:8mm}}
 </style></head><body>
-<header><div class="hb"><b>Fakturace</b><span id="sync"></span></div>
-<nav><a href="#prehled" data-v="prehled">Přehled</a><a href="#vydane" data-v="vydane">Vydané</a><a href="#prijate" data-v="prijate">Přijaté</a><a href="#kontakty" data-v="kontakty">Kontakty</a><a href="#sablony" data-v="sablony">Šablony</a><a href="#dph" data-v="dph">DPH</a><a href="#dan" data-v="dan">Daň z příjmů</a><a href="#nastaveni" data-v="nastaveni">Nastavení</a></nav></header>
-<main id="main"></main><div id="toast"></div>
+<div id="app"><aside id="side"><div class="brand"><i>F</i>Fakturace</div><div id="nav"></div><div id="sync"></div></aside>
+<div id="wrap"><header id="top" class="noprint"><b id="mtitle">Fakturace</b><input id="q" type="search" placeholder="Hledat doklad, kontakt, částku…" autocomplete="off"><span class="sp hide-m"></span><button class="pri hide-m" onclick="A.novaVydana()">+ Nová faktura</button></header>
+<main id="main"></main></div><nav id="tabs"></nav></div><div id="toast"></div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>//---------------------------------------------------------------------
 //
@@ -2342,10 +2358,12 @@ const REZIM = {
   tuzemsko: {nazev: 'Tuzemsko (21 %)', cleneni: '01-02', sazba: 21},
   eu_sluzba: {nazev: 'Služba do EU (přenesení daňové povinnosti)', cleneni: '21', sazba: 0,
     text_cs: 'Daň odvede zákazník.\nPřenesení daňové povinnosti – čl. 196 směrnice 2006/112/ES.',
-    text_en: 'Invoice is VAT reverse-charged. Tax will be paid by the customer.\nReverse charge – Article 196 of Directive 2006/112/EC.'},
+    text_en: 'Invoice is VAT reverse-charged. Tax will be paid by the customer.\nReverse charge – Article 196 of Directive 2006/112/EC.',
+    text_de: 'Steuerschuldnerschaft des Leistungsempfängers (Reverse Charge).\nArt. 196 der Richtlinie 2006/112/EG.'},
   mimo_eu_sluzba: {nazev: 'Služba mimo EU', cleneni: '26', sazba: 0,
     text_cs: 'Místo plnění mimo tuzemsko (§ 9 odst. 1 zákona o DPH) – bez české DPH.',
-    text_en: 'Place of supply outside the Czech Republic – not subject to Czech VAT.'},
+    text_en: 'Place of supply outside the Czech Republic – not subject to Czech VAT.',
+    text_de: 'Leistungsort außerhalb der Tschechischen Republik – nicht steuerbar in Tschechien.'},
 };
 const CLENENI_PRIJATE = [
   ['40-41', 'Tuzemsko – nárok na odpočet'], ['40-41m', 'Tuzemsko – majetek, nárok na odpočet'],
@@ -2354,9 +2372,12 @@ const CLENENI_PRIJATE = [
 ];
 const DEF_NAST = {
   rady: {vydane: 'RRRRMMNNN', prijate: 'DFRRRRNNNN'},
-  faktura: {splatnost_dni: 14, text_cs: 'Děkuji předem za včasnou úhradu.', text_en: '', barva: '#1E9BE0'},
+  faktura: {splatnost_dni: 14, text_cs: 'Děkuji předem za včasnou úhradu.', text_en: 'Thank you for your business.', text_de: 'Vielen Dank für Ihren Auftrag.', barva: '#1E9BE0', logo: '', epc_qr: true},
   fu: {nazev: '', ucet: '', iban: '', bic: 'CNBACZPP', vs: '', zprava: ''},
-  dan_prijmy: {pausal: 60},
+  dan_prijmy: {pausal: 60, rucne: {}, zalohy_dan: {}, zalohy_soc: {}, zalohy_zdr: {}, zd8: {}},
+  osoba: {titul: '', rodne_cislo: '', datum_narozeni: '', cssz_vs: '', cssz_ossz: '', nemocenske: '', zp_nazev: ''},
+  banka: {proxy: ''},
+  parametry: {},
 };
 
 const r2 = x => { const v = +x || 0, s = v < 0 ? -1 : 1; return s * Math.round((Math.abs(v) + 1e-9) * 100) / 100; };
@@ -2469,6 +2490,9 @@ const DPH = (() => {
     for (const d0 of docsAll) {
       if (d0.storno) continue;
       const doc = toCore(d0);
+      const orig = d0.k_dokladu ? docsAll.find(x => x.cislo === d0.k_dokladu && x.typ === d0.typ) : null;
+      const big = Math.abs(doc.total) > 10000 * SC || (orig && Math.abs(+(orig.soucty || {}).celkem_czk || 0) > 10000);
+      if (d0.druh === 'dobropis') warnings.push(`${doc.number}: opravný daňový doklad – zkontroluj jeho zařazení v kontrolním hlášení`);
       if (!(doc.vat_date >= start && doc.vat_date <= end)) continue;
       const per = {};
       for (const ln of doc.lines) {
@@ -2500,9 +2524,9 @@ const DPH = (() => {
       for (const code in perKh) {
         const br = perKh[code], row = {br};
         const accum = tgt => { for (const k in br) { tgt[k] = tgt[k] || [0, 0]; tgt[k][0] += br[k][0]; tgt[k][1] += br[k][1]; } };
-        if (code === '01-02') { if (doc.total > 10000 * SC && doc.vatid && ['CZ', ''].includes(doc.cc)) a4.push(Object.assign({c_evid_dd: doc.number, dppd, dic_odb: doc.vatid}, row)); else accum(a5); }
+        if (code === '01-02') { if (big && doc.vatid && ['CZ', ''].includes(doc.cc)) a4.push(Object.assign({c_evid_dd: doc.number, dppd, dic_odb: doc.vatid}, row)); else accum(a5); }
         else if (code === '03-04' || code === '05-06') { if (!doc.vatid || !doc.cc) warnings.push(`${doc.number}: dodavatel bez VAT ID – oddíl A.2 nelze správně vyplnit`); a2.push(Object.assign({c_evid_dd: ext, vatid_dod: doc.vatid, k_stat: doc.cc, dppd}, row)); }
-        else if (code === '40-41') { if (doc.total > 10000 * SC && doc.vatid) b2.push(Object.assign({c_evid_dd: ext, dic_dod: doc.vatid, dppd}, row)); else accum(b3); }
+        else if (code === '40-41') { if (big && doc.vatid) b2.push(Object.assign({c_evid_dd: ext, dic_dod: doc.vatid, dppd}, row)); else accum(b3); }
         else if (['10-11', '12-13', '25'].includes(code)) warnings.push(`${doc.number}: členění ${code} – oddíl KH (A.1/B.1) není automatický, doplň ručně`);
         else if (code === '20' || code === '21') { const key = [doc.cc, doc.vatid, code === '20' ? '0' : '3'].join('|'); sh[key] = sh[key] || [0, 0]; for (const k in br) sh[key][0] += br[k][0]; sh[key][1] += 1; }
       }
@@ -2543,23 +2567,248 @@ const DPH = (() => {
   return {build};
 })();
 
-/* ---------- daň z příjmů – podklady (výdajový paušál) ---------- */
-function danPrijmy(rok, pausal) {
-  const y = String(rok); let duzp = 0, zapl = 0; const neuhr = [], radky = [];
-  for (const d of Store.docs()) {
-    if (d.storno || d.typ !== 'vydana') continue;
-    const base = +(d.soucty || {}).zaklad_czk || 0;
-    if ((d.duzp || '').slice(0, 4) === y) duzp += base;
-    const pl = (d.uhrady || []).filter(u => (u.datum || '').slice(0, 4) === y);
-    if (pl.length) { zapl += base; radky.push({cislo: d.cislo, partner: (d.partner || {}).nazev, datum: pl[0].datum, zaklad: base}); }
-    if (!(d.uhrady || []).length) neuhr.push(d);
-  }
-  const limit = {80: 1600000, 60: 1200000, 40: 800000, 30: 600000}[pausal] || Infinity;
-  const vydaje = Math.min(Math.round(zapl * pausal / 100), limit);
-  return {rok, fakturovano: r2(duzp), prijmy: r2(zapl), pausal, vydaje, zaklad: Math.max(0, Math.round(zapl) - vydaje), neuhr, radky: radky.sort((a, b) => a.datum.localeCompare(b.datum))};
+/* ====== Fakturace – jazyky faktur, QR, daň z příjmů a pojistné, ISDOC, banka. Bez závislosti na DOM (kromě ISDOC.parse). ====== */
+const L10N = {
+  cs: {jazyk: 'česky', faktura: 'Faktura – daňový doklad', dobropis: 'Opravný daňový doklad', dodavatel: 'Dodavatel', odberatel: 'Odběratel', ic: 'IČ', dic: 'DIČ',
+    vystaveno: 'Datum vystavení', duzp: 'Datum zdan. plnění', splatnost: 'Datum splatnosti', ucet: 'Bankovní účet', symbol: 'Symbol', vs: 'variabilní', ks: 'konstantní',
+    ref: 'Zpráva pro příjemce', zpusob: 'Způsob platby: převodem', k_uhrade: 'K úhradě', popis: 'Označení dodávky', mnozstvi: 'Počet m. j.', cena: 'Cena za m. j.', dph_pct: 'DPH %',
+    bez_dph: 'Bez DPH', dph: 'DPH', celkem: 'Celkem', sazba: 'Sazba DPH', zaklad: 'Základ', vyse_dph: 'Výše DPH', celkem_k_uhrade: 'Celkem k úhradě', kurz: 'Kurz', vystavil: 'Vystavil',
+    objednavka: 'Objednávka', k_dokladu: 'Oprava k dokladu', qr: 'QR Platba', stat: 'Česká republika', strana: 'Strana',
+    ref_hint: 'Při platbě prosím uveďte číslo faktury {n} jako variabilní symbol nebo ve zprávě pro příjemce.',
+    mail_predmet: 'Faktura {n}', mail_text: 'Dobrý den,\n\nv příloze zasílám fakturu č. {n} na částku {castka} se splatností {splatnost}.\n\nDěkuji a přeji hezký den\n{firma}',
+    upo_predmet: 'Upomínka – faktura {n} po splatnosti', upo_text: 'Dobrý den,\n\ndovoluji si připomenout, že faktura č. {n} na částku {castka} byla splatná {splatnost} a dosud neeviduji její úhradu. Pokud jste ji mezitím uhradili, považujte prosím tuto zprávu za bezpředmětnou.\n\nDěkuji\n{firma}'},
+  en: {jazyk: 'anglicky', faktura: 'Invoice – tax document', dobropis: 'Credit note – corrective tax document', dodavatel: 'Supplier', odberatel: 'Customer', ic: 'ID', dic: 'VAT ID',
+    vystaveno: 'Date of issue', duzp: 'Taxable supply', splatnost: 'Due date', ucet: 'Bank account', symbol: 'Payment', vs: 'variable symbol', ks: 'constant symbol',
+    ref: 'Payment reference', zpusob: 'Payment method: bank transfer', k_uhrade: 'Amount due', popis: 'Description', mnozstvi: 'Quantity', cena: 'Unit price', dph_pct: 'VAT %',
+    bez_dph: 'Excl. VAT', dph: 'VAT', celkem: 'Total', sazba: 'VAT rate', zaklad: 'Base', vyse_dph: 'VAT', celkem_k_uhrade: 'Total amount due', kurz: 'Exchange rate', vystavil: 'Issued by',
+    objednavka: 'Order no.', k_dokladu: 'Correction of invoice', qr: 'Scan to pay', stat: 'Czech Republic', strana: 'Page',
+    ref_hint: 'Please quote the invoice number {n} as the payment reference (remittance information) of your transfer.',
+    mail_predmet: 'Invoice {n}', mail_text: 'Hello,\n\nplease find attached invoice no. {n} for {castka}, due on {splatnost}.\n\nThank you and best regards\n{firma}',
+    upo_predmet: 'Payment reminder – invoice {n}', upo_text: 'Hello,\n\nthis is a friendly reminder that invoice no. {n} for {castka} was due on {splatnost} and I have not yet received the payment. If you have already paid, please disregard this message.\n\nThank you and best regards\n{firma}'},
+  de: {jazyk: 'německy', faktura: 'Rechnung', dobropis: 'Rechnungskorrektur (Gutschrift)', dodavatel: 'Lieferant', odberatel: 'Kunde', ic: 'Reg.-Nr.', dic: 'USt-IdNr.',
+    vystaveno: 'Rechnungsdatum', duzp: 'Leistungsdatum', splatnost: 'Fällig am', ucet: 'Bankverbindung', symbol: 'Zahlung', vs: 'variables Symbol', ks: 'Konstantsymbol',
+    ref: 'Verwendungszweck', zpusob: 'Zahlungsart: Überweisung', k_uhrade: 'Zahlbetrag', popis: 'Bezeichnung', mnozstvi: 'Menge', cena: 'Einzelpreis', dph_pct: 'USt %',
+    bez_dph: 'Netto', dph: 'USt', celkem: 'Gesamt', sazba: 'USt-Satz', zaklad: 'Netto', vyse_dph: 'USt', celkem_k_uhrade: 'Gesamtbetrag', kurz: 'Wechselkurs', vystavil: 'Ausgestellt von',
+    objednavka: 'Bestellnummer', k_dokladu: 'Korrektur zur Rechnung', qr: 'Zahlen per QR-Code', stat: 'Tschechische Republik', strana: 'Seite',
+    ref_hint: 'Bitte geben Sie bei der Überweisung die Rechnungsnummer {n} als Verwendungszweck an.',
+    mail_predmet: 'Rechnung {n}', mail_text: 'Guten Tag,\n\nanbei erhalten Sie die Rechnung Nr. {n} über {castka}, fällig am {splatnost}.\n\nVielen Dank und freundliche Grüße\n{firma}',
+    upo_predmet: 'Zahlungserinnerung – Rechnung {n}', upo_text: 'Guten Tag,\n\nich möchte Sie freundlich daran erinnern, dass die Rechnung Nr. {n} über {castka} am {splatnost} fällig war und ich bisher keinen Zahlungseingang feststellen konnte. Sollten Sie bereits bezahlt haben, betrachten Sie diese Nachricht bitte als gegenstandslos.\n\nVielen Dank und freundliche Grüße\n{firma}'},
+};
+const STATY = {CZ: ['Česká republika', 'Czech Republic', 'Tschechische Republik'], DE: ['Německo', 'Germany', 'Deutschland'], AT: ['Rakousko', 'Austria', 'Österreich'], SK: ['Slovensko', 'Slovakia', 'Slowakei'],
+  PL: ['Polsko', 'Poland', 'Polen'], NL: ['Nizozemsko', 'Netherlands', 'Niederlande'], FR: ['Francie', 'France', 'Frankreich'], GB: ['Spojené království', 'United Kingdom', 'Vereinigtes Königreich'],
+  US: ['USA', 'United States', 'USA'], CH: ['Švýcarsko', 'Switzerland', 'Schweiz'], IE: ['Irsko', 'Ireland', 'Irland'], BE: ['Belgie', 'Belgium', 'Belgien'], IT: ['Itálie', 'Italy', 'Italien'], ES: ['Španělsko', 'Spain', 'Spanien'], HU: ['Maďarsko', 'Hungary', 'Ungarn']};
+const statNazev = (kod, jazyk) => (STATY[String(kod || 'CZ').toUpperCase()] || [])[{cs: 0, en: 1, de: 2}[jazyk] ?? 0] || kod || '';
+const bezDia = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+/* ---------- QR na faktuře: CZK = QR Platba (SPAYD), EUR = SEPA QR (EPC/GiroCode) s číslem faktury v účelu platby ---------- */
+function payQr(d, firma) {
+  const u = d.ucet || {}, iban = String(u.iban || '').replace(/\s/g, ''), castka = +(d.soucty || {}).celkem || 0;
+  if (!iban || castka <= 0) return null;
+  if ((d.mena || 'CZK') === 'CZK') return {typ: 'spayd', text: `SPD*1.0*ACC:${iban}${u.swift ? '+' + u.swift : ''}*AM:${castka.toFixed(2)}*CC:CZK*X-VS:${d.vs || ''}*DT:${String(d.splatnost || '').replace(/-/g, '')}*MSG:Faktura ${d.cislo}`};
+  if (d.mena === 'EUR') return {typ: 'epc', text: ['BCD', '002', '1', 'SCT', u.swift || '', bezDia((firma || {}).nazev || '').slice(0, 70), iban, 'EUR' + castka.toFixed(2), '', '', String(d.cislo), ''].join('\n')};
+  return null;
 }
 
-if (typeof module !== 'undefined' && module.exports) module.exports = {Store, DPH, calcItems, nextNumber, danPrijmy, r2};
+/* ---------- daň z příjmů: příjmy podle data úhrady, cizí měna kurzem ČNB ke dni úhrady ---------- */
+function danPrijmy(rok, pausal) {
+  const y = String(rok); let duzp = 0, zapl = 0, odhad = 0; const neuhr = [], radky = [];
+  for (const d of Store.docs()) {
+    if (d.storno || d.typ !== 'vydana' || d.dan_z_prijmu === false) continue;
+    const S = d.soucty || {}, base = +S.zaklad || 0, tot = +S.celkem || 0, cizi = d.mena && d.mena !== 'CZK';
+    if ((d.duzp || '').slice(0, 4) === y) duzp += +S.zaklad_czk || 0;
+    for (const u of (d.uhrady || [])) {
+      if ((u.datum || '').slice(0, 4) !== y) continue;
+      const podil = tot ? Math.min(1, Math.abs((+u.castka || 0) / tot)) : 1, kurz = cizi ? (+u.kurz || +d.kurz || 1) : 1;
+      const czk = r2(base * podil * kurz); zapl += czk; if (cizi && !u.kurz) odhad++;
+      radky.push({cislo: d.cislo, partner: (d.partner || {}).nazev, datum: u.datum, zaklad: czk, mena: d.mena || 'CZK', kurz: cizi ? kurz : null, odhad: cizi && !u.kurz});
+    }
+    if (!(d.uhrady || []).length && d.druh !== 'dobropis') neuhr.push(d);
+  }
+  const limit = {80: 1600000, 60: 1200000, 40: 800000, 30: 600000}[pausal] || Infinity;
+  const prijmy = Math.round(zapl), vydaje = Math.min(Math.round(prijmy * pausal / 100), limit);
+  return {rok, fakturovano: r2(duzp), prijmy, pausal, vydaje, zaklad: Math.max(0, prijmy - vydaje), neuhr, odhad, radky: radky.sort((a, b) => a.datum.localeCompare(b.datum))};
+}
+
+/* ---------- roční zúčtování: daň z příjmů (DPFDP7), přehled ČSSZ (OSVC), přehled pro zdravotní pojišťovnu ---------- */
+const Dane = (() => {
+  // prum = průměrná mzda pro pojistné; hran23 = hranice pro sazbu 23 %; soc_min/zdr_min = minimální měsíční vyměřovací základ (hlavní činnost)
+  const PARAM = {
+    2023: {prum: 40324, hran23: 1935552, sleva: 30840, soc_pct: 50, soc_min: 10081, soc_max: 1935552, zdr_min: 20162},
+    2024: {prum: 43967, hran23: 1582812, sleva: 30840, soc_pct: 55, soc_min: 13191, soc_max: 2110416, zdr_min: 21983.5},
+    2025: {prum: 46557, hran23: 1676052, sleva: 30840, soc_pct: 55, soc_min: 16295, soc_max: 2234736, zdr_min: 23278.5},
+    2026: {prum: 48967, hran23: 1762812, sleva: 30840, soc_pct: 55, soc_min: 19587, soc_max: 2350416, zdr_min: 24483.5},
+  };
+  const SOC = 0.292, ZDR = 0.135, up = x => Math.ceil(x - 1e-9);
+  const xesc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const attrs = a => Object.entries(a).filter(([, v]) => v !== undefined && v !== null).map(([k, v]) => `${k}="${xesc(v)}"`).join(' ');
+  function param(rok) {
+    const n = Store.nast(), znamy = PARAM[rok], posl = Math.max(...Object.keys(PARAM).map(Number));
+    return Object.assign({rok, odhad: !znamy}, znamy || PARAM[posl], (n.parametry || {})[rok] || {});
+  }
+  function vypocet(rok) {
+    const n = Store.nast(), dp = n.dan_prijmy, p = param(rok), pn = param(rok + 1), e = danPrijmy(rok, +dp.pausal || 60);
+    const cis = (o) => { const v = (o || {})[rok]; return v === undefined || v === '' || v === null ? null : +v; };
+    const rucne = cis(dp.rucne), prijmy = rucne !== null ? Math.round(rucne) : e.prijmy;
+    const limit = {80: 1600000, 60: 1200000, 40: 800000, 30: 600000}[e.pausal] || Infinity;
+    const vydaje = Math.min(Math.round(prijmy * e.pausal / 100), limit), zd7 = Math.max(0, prijmy - vydaje), zd8 = Math.max(0, Math.round(cis(dp.zd8) || 0));
+    const zaklad = zd7 + zd8, zaokr = Math.floor(zaklad / 100) * 100;
+    const dan = up(Math.min(zaokr, p.hran23) * 0.15 + Math.max(0, zaokr - p.hran23) * 0.23), poSleve = Math.max(0, dan - p.sleva);
+    const zalDan = Math.round(cis(dp.zalohy_dan) || 0);
+    // sociální pojištění
+    const vvz = up(zd7 * p.soc_pct / 100), socMin = up(p.soc_min * 12), mvz = Math.max(vvz, socMin), vzsvc = Math.min(mvz, p.soc_max);
+    const socPoj = up(vzsvc * SOC), socZal = Math.round(cis(dp.zalohy_soc) || 0);
+    const novaVz = Math.max(up(vzsvc / 12), up(pn.soc_min)), novaSoc = up(novaVz * SOC);
+    // zdravotní pojištění
+    const zvz = zd7 * 0.5, zMin = p.zdr_min * 12, zvzF = Math.max(zvz, zMin), zdrPoj = up(zvzF * ZDR), zdrZal = Math.round(cis(dp.zalohy_zdr) || 0);
+    const novaZdr = up(Math.max(zvzF / 12, pn.zdr_min) * ZDR);
+    return {rok, p, pn, e, rucne: rucne !== null, prijmy, vydaje, pausal: e.pausal, zd7, zd8, zaklad, zaokr, dan, sleva: p.sleva, poSleve, zalDan, doplatekDan: poSleve - zalDan,
+      soc: {vvz, min: socMin, mvz, vzsvc, poj: socPoj, zal: socZal, ned: socPoj - socZal, novaVz, novaZal: novaSoc, mesp: Math.round(zd7 / 12 * 100) / 100},
+      zdr: {vz: Math.round(zvz * 100) / 100, min: zMin, vzF: Math.round(zvzF * 100) / 100, poj: zdrPoj, zal: zdrZal, ned: zdrPoj - zdrZal, novaZal: novaZdr}};
+  }
+  function dpfdp7(rok) {
+    const f = Store.firma(), n = Store.nast(), v = vypocet(rok), ep = f.epo_profil || {}, vp = ep.VetaP || {};
+    const rc = digits(n.osoba.rodne_cislo) || digits(vp.dic || f.dic);
+    const D = {audit: 'N', c_ufo_cil: vp.c_ufo, zdobd_od: `01.01.${rok}`, zdobd_do: `31.12.${rok}`, dap_typ: 'B', dokument: 'DP7', k_uladis: 'DPF', pln_moc: 'N', rok,
+      da_slezap: v.dan, da_celod13: v.dan, kc_op15_1a: v.sleva, uhrn_slevy35ba: v.sleva, da_slevy35c: v.poSleve, da_slevy35ba: v.poSleve, kc_dan_celk: v.poSleve, kc_dan_po_db: v.poSleve, kc_db_po_odpd: 0,
+      kc_zalpred: v.zalDan || undefined, kc_zbyvpred: v.doplatekDan, kc_dztrata: 0};
+    const P = {c_pracufo: vp.c_pracufo, c_orient: vp.c_orient || undefined, c_pop: vp.c_pop, c_telef: vp.c_telef, email: vp.email, jmeno: vp.jmeno, prijmeni: vp.prijmeni, titul: n.osoba.titul || undefined, k_stat: 'CZ',
+      stat: 'ČESKÁ REPUBLIKA', psc: digits(vp.psc), naz_obce: vp.naz_obce, ulice: vp.ulice, dic: digits(vp.dic || f.dic), rod_c: rc};
+    const O = {kc_zd7: v.zd7, kc_zakldan8: v.zd8 || undefined, kc_uhrn: v.zaklad, kc_zakldan23: v.zaklad, kc_zakldan: v.zaklad};
+    const T = {c_nace: ep.c_okec || '620000', vyd7proc: 'A', pr_sazba: v.pausal, pr_prij7: v.prijmy, pr_vyd7: v.vydaje, celk_pr_prij7: v.prijmy, celk_pr_vyd7: v.vydaje, d_zahcin: `01.01.${rok}`,
+      kc_prij7: v.prijmy, kc_vyd7: v.vydaje, m_podnik: 12, kc_zd7p: v.zd7, kc_hosp_rozd: v.zd7};
+    return `<?xml version="1.0" encoding="UTF-8"?><Pisemnost nazevSW="Claude-Fakturace" verzeSW="2.0"><DPFDP7 verzePis="01.01"><VetaD ${attrs(D)} /><VetaP ${attrs(P)} /><VetaO ${attrs(O)} />` +
+      `<VetaS ${attrs({kc_zdsniz: v.zaklad, kc_zdzaokr: v.zaokr, da_dan16: v.dan})} /><VetaB priloha1="1" /><VetaT ${attrs(T)} /></DPFDP7></Pisemnost>`;
+  }
+  function osvc(rok) {
+    const f = Store.firma(), n = Store.nast(), o = n.osoba, v = vypocet(rok), s = v.soc, vp = (f.epo_profil || {}).VetaP || {};
+    const m13 = t => Array.from({length: 13}, (_, i) => `<m${i + 1}>${i === 12 ? t : ''}</m${i + 1}>`).join('');
+    const num = [vp.c_pop, vp.c_orient].filter(Boolean).join('/'), ulice = vp.ulice && vp.ulice !== vp.naz_obce ? vp.ulice : undefined;
+    const np = digits(o.nemocenske) || 0;
+    return `<?xml version="1.0" encoding="UTF-8"?><OSVC xmlns="http://schemas.cssz.cz/OSVC${rok}" version="1.0"><VENDOR productName="Claude-Fakturace" productVersion="2.0"></VENDOR><SENDER ISDSreport="3" VerzeProtokolu="1.0"></SENDER>` +
+      `<prehledosvc ${attrs({for: 'prehledosvc', dep: o.cssz_ossz, vsdp: o.cssz_vs, rok, typ: 'N'})}><client><name ${attrs({sur: vp.prijmeni, fir: vp.jmeno, tit: o.titul || undefined})}></name>` +
+      `<birth ${attrs({bno: digits(o.rodne_cislo), den: o.datum_narozeni})}></birth><adr ${attrs({str: ulice, num, pnu: digits(vp.psc), cit: vp.naz_obce, cnt: 'CZ'})}></adr><idds></idds>` +
+      `<email>${xesc(vp.email || f.email || '')}</email><tel>${xesc(digits(vp.c_telef || f.telefon).replace(/^420/, ''))}</tel><druc>H</druc><hlavc>${m13('A')}</hlavc>` +
+      `<vedc>${m13('')}<zam></zam><duchod></duchod><pdite></pdite><ppm></ppm><pece></pece><ndite></ndite></vedc><narok>${m13('')}</narok><sleva>${m13('')}</sleva><vzpm></vzpm></client>` +
+      `<pvv pri="${v.zd7}"><mesc h="12"></mesc><mesv h="12"></mesv><mesp>${s.mesp.toFixed(2)}</mesp><rdza h="0" v="0"></rdza><vvz h="${s.vvz}" v="0"></vvz><dvz h="0" v="0"></dvz><mvz>${s.mvz}</mvz><uvz>${s.mvz}</uvz><vzza></vzza>` +
+      `<vzsu>${s.mvz}</vzsu><vzsvc>${s.vzsvc}</vzsvc><poj>${s.poj}</poj><slev>0</slev><pojposlev>${s.poj}</pojposlev><zal>${s.zal}</zal><ned>${s.ned}</ned></pvv><prihldp></prihldp>` +
+      `<zal ved="H" vz="${s.novaVz}" dp="${s.novaZal}" np="${np}"></zal><pre vra="0"><rok></rok><iban></iban><bs></bs><adr></adr></pre><prizn><pov>A</pov><elektr>A</elektr><meldat></meldat></prizn>` +
+      `<opr></opr><spo><name></name><adr></adr></spo><dat></dat><prilo coun="0" plnamoc="N" jina="N"></prilo></prehledosvc></OSVC>`;
+  }
+  return {PARAM, param, vypocet, dpfdp7, osvc};
+})();
+
+/* ---------- ISDOC 6.0.2 ---------- */
+const ISDOC = (() => {
+  const x = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const t = (n, v) => `<${n}>${x(v)}</${n}>`, a = v => (+v || 0).toFixed(2);
+  const uuid = seed => { let h = 0x811c9dc5; const out = []; for (let i = 0; i < 32; i++) { for (const c of seed + i) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } out.push((h & 15).toString(16)); }
+    out[12] = '4'; out[16] = '8'; const s = out.join(''); return `${s.slice(0, 8)}-${s.slice(8, 12)}-${s.slice(12, 16)}-${s.slice(16, 20)}-${s.slice(20)}`; };
+  function party(p, kontakt) {
+    const m = String(p.ulice || '').match(/^(.*?)[\s,]+(\d[\w/-]*)$/), cc = (p.stat || 'CZ').toUpperCase();
+    return `<Party><PartyIdentification>${t('ID', p.ico || '')}</PartyIdentification><PartyName>${t('Name', p.nazev || '')}</PartyName><PostalAddress>${t('StreetName', m ? m[1] : (p.ulice || ''))}${t('BuildingNumber', m ? m[2] : '')}` +
+      `${t('CityName', p.mesto || '')}${t('PostalZone', p.psc || '')}<Country>${t('IdentificationCode', cc)}${t('Name', statNazev(cc, 'cs'))}</Country></PostalAddress>` +
+      (p.dic ? `<PartyTaxScheme>${t('CompanyID', p.dic)}<TaxScheme>VAT</TaxScheme></PartyTaxScheme>` : '') +
+      (kontakt && (kontakt.email || kontakt.telefon) ? `<Contact>${kontakt.telefon ? t('Telephone', kontakt.telefon) : ''}${kontakt.email ? t('ElectronicMail', kontakt.email) : ''}</Contact>` : '') + `</Party>`;
+  }
+  function xml(d, f) {
+    const S = d.soucty || {}, cizi = d.mena && d.mena !== 'CZK', u = d.ucet || {}, kurz = +d.kurz || 1, lok = k => a(cizi ? S[k + '_czk'] : S[k]);
+    const uc = String(u.cislo || '').split('/');
+    const lines = (d.polozky || []).map((p, i) => {
+      const L = k => a(cizi ? p[k + '_czk'] : p[k]), q = +p.mnozstvi || 1;
+      return `<InvoiceLine>${t('ID', i + 1)}<InvoicedQuantity${p.jednotka ? ` unitCode="${x(p.jednotka)}"` : ''}>${q}</InvoicedQuantity>` +
+        (cizi ? t('LineExtensionAmountCurr', a(p.zaklad)) : '') + t('LineExtensionAmount', L('zaklad')) + (cizi ? t('LineExtensionAmountTaxInclusiveCurr', a(p.celkem)) : '') + t('LineExtensionAmountTaxInclusive', L('celkem')) +
+        t('LineExtensionTaxAmount', L('dph')) + t('UnitPrice', a((cizi ? p.zaklad_czk : p.zaklad) / q)) + t('UnitPriceTaxInclusive', a((cizi ? p.celkem_czk : p.celkem) / q)) +
+        `<ClassifiedTaxCategory>${t('Percent', p.sazba)}<VATCalculationMethod>0</VATCalculationMethod>${t('VATApplicable', 'true')}</ClassifiedTaxCategory><Item>${t('Description', p.nazev)}</Item></InvoiceLine>`;
+    }).join('');
+    const rec = {}; for (const p of (d.polozky || [])) { const r = rec[p.sazba] = rec[p.sazba] || {z: 0, d: 0, zc: 0, dc: 0}; r.z += +p.zaklad; r.d += +p.dph; r.zc += +p.zaklad_czk; r.dc += +p.dph_czk; }
+    const subs = Object.keys(rec).sort((p, q) => q - p).map(s => { const r = rec[s], Z = cizi ? r.zc : r.z, Dd = cizi ? r.dc : r.d;
+      return `<TaxSubTotal>${cizi ? t('TaxableAmountCurr', a(r.z)) : ''}${t('TaxableAmount', a(Z))}${cizi ? t('TaxAmountCurr', a(r.d)) : ''}${t('TaxAmount', a(Dd))}${cizi ? t('TaxInclusiveAmountCurr', a(r.z + r.d)) : ''}${t('TaxInclusiveAmount', a(Z + Dd))}` +
+        `${cizi ? t('AlreadyClaimedTaxableAmountCurr', '0.00') : ''}${t('AlreadyClaimedTaxableAmount', '0.00')}${cizi ? t('AlreadyClaimedTaxAmountCurr', '0.00') : ''}${t('AlreadyClaimedTaxAmount', '0.00')}${cizi ? t('AlreadyClaimedTaxInclusiveAmountCurr', '0.00') : ''}${t('AlreadyClaimedTaxInclusiveAmount', '0.00')}` +
+        `${cizi ? t('DifferenceTaxableAmountCurr', a(r.z)) : ''}${t('DifferenceTaxableAmount', a(Z))}${cizi ? t('DifferenceTaxAmountCurr', a(r.d)) : ''}${t('DifferenceTaxAmount', a(Dd))}${cizi ? t('DifferenceTaxInclusiveAmountCurr', a(r.z + r.d)) : ''}${t('DifferenceTaxInclusiveAmount', a(Z + Dd))}` +
+        `<TaxCategory>${t('Percent', s)}</TaxCategory></TaxSubTotal>`; }).join('');
+    const C = (n, k) => (cizi ? t(n + 'Curr', a(S[k])) : '') + t(n, lok(k)), Z0 = n => (cizi ? t(n + 'Curr', '0.00') : '') + t(n, '0.00');
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<Invoice xmlns="http://isdoc.cz/namespace/2013" version="6.0.2">${t('DocumentType', d.druh === 'dobropis' ? 2 : 1)}${t('ID', d.cislo)}${t('UUID', uuid('fakturace-' + (f.ico || '') + '-' + d.cislo))}` +
+      `${t('IssuingSystem', 'Fakturace')}${t('IssueDate', d.datum_vystaveni)}${t('TaxPointDate', d.duzp)}${t('VATApplicable', 'true')}<ElectronicPossibilityAgreementReference></ElectronicPossibilityAgreementReference>` +
+      `${t('Note', [d.text, d.text_rezim].filter(Boolean).join(' '))}${t('LocalCurrencyCode', 'CZK')}${cizi ? t('ForeignCurrencyCode', d.mena) : ''}${t('CurrRate', cizi ? kurz : 1)}${t('RefCurrRate', 1)}` +
+      `<AccountingSupplierParty>${party({nazev: f.nazev, ulice: f.ulice, mesto: f.mesto, psc: f.psc, stat: 'CZ', ico: f.ico, dic: f.dic}, f)}</AccountingSupplierParty>` +
+      `<AccountingCustomerParty>${party(d.partner || {}, d.partner)}</AccountingCustomerParty>` +
+      (d.objednavka ? `<OrderReferences><OrderReference>${t('SalesOrderID', '')}${t('ExternalOrderID', d.objednavka)}</OrderReference></OrderReferences>` : '') +
+      (d.k_dokladu ? `<OriginalDocumentReferences><OriginalDocumentReference>${t('ID', d.k_dokladu)}</OriginalDocumentReference></OriginalDocumentReferences>` : '') +
+      `<InvoiceLines>${lines}</InvoiceLines><TaxTotal>${subs}${C('TaxAmount', 'dph')}</TaxTotal>` +
+      `<LegalMonetaryTotal>${C('TaxExclusiveAmount', 'zaklad')}${C('TaxInclusiveAmount', 'celkem')}${Z0('AlreadyClaimedTaxExclusiveAmount')}${Z0('AlreadyClaimedTaxInclusiveAmount')}` +
+      `${C('DifferenceTaxExclusiveAmount', 'zaklad')}${C('DifferenceTaxInclusiveAmount', 'celkem')}${Z0('PayableRoundingAmount')}${Z0('PaidDepositsAmount')}${C('PayableAmount', 'celkem')}</LegalMonetaryTotal>` +
+      `<PaymentMeans><Payment>${t('PaidAmount', a(S.celkem))}${t('PaymentMeansCode', 42)}<Details>${t('PaymentDueDate', d.splatnost)}${t('ID', uc[0] || '')}${t('BankCode', uc[1] || '')}${t('Name', u.banka || '')}` +
+      `${t('IBAN', String(u.iban || '').replace(/\s/g, ''))}${t('BIC', u.swift || '')}${t('VariableSymbol', d.vs || '')}${t('ConstantSymbol', f.konstantni_symbol || '')}</Details></Payment></PaymentMeans></Invoice>\n`;
+  }
+  /* načtení přijaté faktury ve formátu ISDOC do formuláře přijatého dokladu (jen v prohlížeči) */
+  function parse(text) {
+    const doc = new DOMParser().parseFromString(text, 'application/xml'); if (doc.querySelector('parsererror')) throw new Error('Soubor není platné XML.');
+    const g = (el, path) => { let e = el; for (const n of path.split('/')) { if (!e) return ''; e = Array.from(e.children).find(c => c.localName === n); } return e ? e.textContent.trim() : ''; };
+    const root = doc.documentElement; if (root.localName !== 'Invoice') throw new Error('Soubor není faktura ISDOC.');
+    const sp = Array.from(root.children).find(c => c.localName === 'AccountingSupplierParty'), P = sp && Array.from(sp.children).find(c => c.localName === 'Party');
+    const cizi = g(root, 'ForeignCurrencyCode'), il = Array.from(root.children).find(c => c.localName === 'InvoiceLines');
+    const items = il ? Array.from(il.children).map(l => ({nazev: g(l, 'Item/Description') || 'Položka', mnozstvi: 1, cena: +(cizi ? g(l, 'LineExtensionAmountCurr') : g(l, 'LineExtensionAmount')) || 0, typ_ceny: 'bez_dph',
+      sazba: Math.round(+g(l, 'ClassifiedTaxCategory/Percent') || 0), cleneni: '40-41'})) : [];
+    return {p_nazev: g(P, 'PartyName/Name'), p_ico: g(P, 'PartyIdentification/ID'), p_dic: g(P, 'PartyTaxScheme/CompanyID'), p_ulice: [g(P, 'PostalAddress/StreetName'), g(P, 'PostalAddress/BuildingNumber')].filter(Boolean).join(' '),
+      p_mesto: g(P, 'PostalAddress/CityName'), p_psc: g(P, 'PostalAddress/PostalZone'), p_stat: g(P, 'PostalAddress/Country/IdentificationCode') || 'CZ', externi_cislo: g(root, 'ID'),
+      vs: g(root, 'PaymentMeans/Payment/Details/VariableSymbol'), datum_vystaveni: g(root, 'IssueDate'), duzp: g(root, 'TaxPointDate') || g(root, 'IssueDate'), splatnost: g(root, 'PaymentMeans/Payment/Details/PaymentDueDate'),
+      mena: cizi || 'CZK', kurz: cizi ? g(root, 'CurrRate') : '', items};
+  }
+  return {xml, parse};
+})();
+
+/* ---------- banka: výpis Fio (JSON z API nebo CSV z internetbankingu) a párování plateb ---------- */
+const Banka = (() => {
+  const cis = v => { const n = parseFloat(String(v ?? '').replace(/\s/g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
+  const dat = v => { const s = String(v || ''); let m = s.match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) return m[0]; m = s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/); return m ? `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : ''; };
+  function csvRows(text) {
+    const rows = []; let row = [], cur = '', q = false;
+    for (let i = 0; i < text.length; i++) { const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+      else if (c === '"') q = true; else if (c === ';') { row.push(cur); cur = ''; } else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; } else if (c !== '\r') cur += c; }
+    if (cur || row.length) { row.push(cur); rows.push(row); } return rows;
+  }
+  function parseFio(text) {
+    text = String(text || '').replace(/^﻿/, '').trim(); if (!text) throw new Error('Soubor je prázdný.');
+    if (text[0] === '{') {
+      const j = JSON.parse(text), st = j.accountStatement; if (!st) throw new Error('JSON není výpis z Fio API.');
+      const list = ((st.transactionList || {}).transaction) || [], c = (t, n) => { const v = t['column' + n]; return v && v.value !== null && v.value !== undefined ? v.value : ''; };
+      return list.map(t => ({id: String(c(t, 22)), datum: dat(c(t, 0)), castka: +c(t, 1) || 0, mena: c(t, 14) || (st.info || {}).currency || 'CZK', protiucet: String(c(t, 2)), banka: String(c(t, 3)), nazev: String(c(t, 10)),
+        vs: String(c(t, 5)), zprava: String(c(t, 16)), ident: String(c(t, 7)), komentar: String(c(t, 25)), reference: String(c(t, 27)), typ: String(c(t, 8))}));
+    }
+    const rows = csvRows(text), hi = rows.findIndex(r => /^ID (pohybu|operace)$/i.test((r[0] || '').trim())); if (hi < 0) throw new Error('V souboru chybí hlavička výpisu Fio (sloupec „ID pohybu“). Exportuj pohyby z internetbankingu jako CSV.');
+    const H = rows[hi].map(h => h.trim().toLowerCase()), ix = n => H.indexOf(n), col = (r, ...ns) => { for (const n of ns) { const i = ix(n); if (i >= 0 && r[i] !== undefined && r[i] !== '') return r[i].trim(); } return ''; };
+    return rows.slice(hi + 1).filter(r => r.length > 3 && /^\d+$/.test((r[0] || '').trim())).map(r => ({id: r[0].trim(), datum: dat(col(r, 'datum')), castka: cis(col(r, 'objem')), mena: col(r, 'měna') || 'CZK', protiucet: col(r, 'protiúčet'),
+      banka: col(r, 'kód banky'), nazev: col(r, 'název protiúčtu'), vs: col(r, 'vs'), zprava: col(r, 'zpráva pro příjemce'), ident: col(r, 'uživatelská identifikace'), komentar: col(r, 'komentář'), reference: col(r, 'reference plátce'), typ: col(r, 'typ')}));
+  }
+  const klic = s => bezDia(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const zbyva = d => r2((+(d.soucty || {}).celkem || 0) - (d.uhrady || []).reduce((s, u) => s + (+u.castka || 0), 0));
+  /* Párování: 1) variabilní symbol, 2) číslo faktury kdekoli v textu platby (SEPA platby VS nemají), 3) shodná částka a měna u jediného otevřeného dokladu */
+  function match(txs, docs) {
+    const znam = new Set(); for (const d of docs) for (const u of (d.uhrady || [])) if (u.banka_id) znam.add(String(u.banka_id));
+    const open = docs.filter(d => !d.storno && d.druh !== 'dobropis' && zbyva(d) > 0.004), out = [], pouzito = new Set();
+    for (const tx of txs) {
+      if (!tx.castka) continue;
+      if (znam.has(String(tx.id))) { out.push({tx, stav: 'hotovo'}); continue; }
+      const prijem = tx.castka > 0, kand = open.filter(d => d.typ === (prijem ? 'vydana' : 'prijata') && !pouzito.has(d.typ + d.cislo)), castka = Math.abs(tx.castka);
+      const blob = klic([tx.vs, tx.zprava, tx.ident, tx.komentar, tx.reference].join(' ')), vs = digits(tx.vs).replace(/^0+/, '');
+      const cisla = d => [d.cislo, d.vs, d.externi_cislo].filter(v => v && klic(v).length >= 5).map(klic);
+      let doc = vs ? kand.find(d => [d.vs, d.typ === 'vydana' ? digits(d.cislo) : null].some(v => v && String(v).replace(/^0+/, '') === vs)) : null, jak = doc ? 'vs' : '';
+      if (!doc) { doc = kand.find(d => cisla(d).some(c => blob.includes(c))); if (doc) jak = 'cislo'; }
+      if (!doc) { const stejne = kand.filter(d => (d.mena || 'CZK') === tx.mena && Math.abs(zbyva(d) - castka) < 0.005);
+        const jmeno = stejne.filter(d => { const a = klic((d.partner || {}).nazev).slice(0, 8), b = klic(tx.nazev + ' ' + tx.ident + ' ' + tx.zprava); return a.length >= 4 && b.includes(a); });
+        if (jmeno.length === 1) { doc = jmeno[0]; jak = 'castka+nazev'; } else if (stejne.length === 1) { doc = stejne[0]; jak = 'castka'; } }
+      if (!doc) { out.push({tx, stav: 'nenalezeno'}); continue; }
+      pouzito.add(doc.typ + doc.cislo);
+      const menaOk = (doc.mena || 'CZK') === tx.mena, rozdil = menaOk ? r2(castka - zbyva(doc)) : null;
+      out.push({tx, doc, jak, stav: 'navrh', jiste: (jak === 'vs' || jak === 'cislo') && menaOk && Math.abs(rozdil) < 0.005, rozdil, menaOk});
+    }
+    return out;
+  }
+  return {parseFio, match, zbyva};
+})();
+
+if (typeof module !== 'undefined' && module.exports) module.exports = {Store, DPH, calcItems, nextNumber, danPrijmy, r2, Dane, ISDOC, Banka, L10N, payQr, REZIM};
 </script>
 <script>/* ====== Fakturace – uživatelské rozhraní, ukládání, Google Disk ====== */
 'use strict';
@@ -2576,7 +2825,7 @@ const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { toast('Nepodařilo se uložit do paměti prohlížeče.', true); } },
 };
-let cfg = LS.get('fak_cfg', {clientId: '', folderId: ''});
+let cfg = Object.assign({clientId: '', folderId: '', fioToken: ''}, LS.get('fak_cfg', {}));
 Store.files = LS.get('fak_files', {});
 let dirty = LS.get('fak_dirty', []);
 const G = {token: null, exp: 0, ids: LS.get('fak_ids', {}), folders: {}, busy: false, last: LS.get('fak_last', null)};
@@ -2709,9 +2958,6 @@ V.prehled = () => {
     <h2>Poslední vydané faktury</h2>${tabVydane(vyd.sort((a, b) => b.datum_vystaveni.localeCompare(a.datum_vystaveni)).slice(0, 6))}`;
 };
 
-const tabVydane = list => list.length ? `<div class="tw"><table><thead><tr><th>Číslo</th><th>Odběratel</th><th>Vystaveno</th><th>Splatnost</th><th class="r">Celkem</th><th>Stav</th></tr></thead><tbody>${list.map(d =>
-  `<tr class="clk" onclick="go('vydana','${esc(d.cislo)}')"><td><b>${esc(d.cislo)}</b></td><td>${esc((d.partner || {}).nazev)}</td><td>${fd(d.datum_vystaveni)}</td><td>${fd(d.splatnost)}</td><td class="r">${kc(d.soucty.celkem, d.mena)}</td><td>${stav(d)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="muted">Žádné doklady.</p>';
-
 V.vydane = () => {
   const list = Store.docs().filter(d => d.typ === 'vydana').sort((a, b) => (b.datum_vystaveni + b.cislo).localeCompare(a.datum_vystaveni + a.cislo));
   const sab = Store.sablony();
@@ -2777,7 +3023,7 @@ const docToForm = d => ({typ: 'vydana', odberatel: (Store.kontakt((d.partner || 
 A.upravVydanou = c => { const d = Store.get(c, 'vydana'); F = Object.assign(docToForm(d), {mode: 'edit', _old: d}); go('vydana-form'); };
 A.kopie = c => { const d = Store.get(c, 'vydana'), t = today(); F = Object.assign(docToForm(d), {mode: 'new', cislo: '', datum_vystaveni: t, duzp: t}); F.splatnost = addDays(t, Math.round((pdate(d.splatnost) - pdate(d.datum_vystaveni)) / 864e5)); go('vydana-form'); };
 
-const itemsRows = () => F.items.map((it, i) => `<tr><td><input value="${esc(it.nazev)}" oninput="F.items[${i}].nazev=this.value" placeholder="Popis"></td>
+const itemsRows = () => F.items.map((it, i) => `<tr><td><input value="${esc(it.nazev)}" list="cenik" oninput="F.items[${i}].nazev=this.value" onchange="A.itemPick(${i},this.value)" placeholder="Popis"></td>
   <td><input class="n" inputmode="decimal" value="${esc(it.mnozstvi)}" oninput="F.items[${i}].mnozstvi=num(this.value);A.sum()"></td><td><input class="u" value="${esc(it.jednotka || '')}" oninput="F.items[${i}].jednotka=this.value"></td>
   <td><input class="n" inputmode="decimal" value="${esc(it.cena)}" oninput="F.items[${i}].cena=num(this.value);A.sum()"></td>
   <td>${F.typ === 'vydana' ? (F.rezim === 'tuzemsko' ? `<select onchange="F.items[${i}].sazba=+this.value;A.sum()">${[21, 12, 0].map(s => `<option${+it.sazba === s ? ' selected' : ''}>${s}</option>`).join('')}</select>` : '0')
@@ -3008,12 +3254,436 @@ A.connect = async fromForm => { try { if (fromForm) { const v = collect($('#s-di
 A.exportAll = () => download('fakturace-zaloha-' + today() + '.json', JSON.stringify(Store.files), 'application/json');
 A.importAll = async file => { if (!file) return; try { const j = JSON.parse(await file.text()); if (!j || typeof j !== 'object' || Array.isArray(j)) throw 0; for (const p in j) { Store.files[p] = j[p]; if (!dirty.includes(p)) dirty.push(p); } persist(); toast('Záloha načtena (' + Object.keys(j).length + ' souborů).'); render(); } catch (e) { toast('Soubor není platná záloha.', true); } };
 
+/* ====== Fakturace v2 – rozhraní: navigace, seznamy, faktury (cs/en/de), úhrady, kontakty, ceník ====== */
+const IC = {
+  prehled: '<path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/>', vydane: '<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h3"/>',
+  prijate: '<path d="M4 14v6h16v-6"/><path d="M12 3v11m0 0-4-4m4 4 4-4"/>', banka: '<path d="M3 10 12 4l9 6"/><path d="M5 10v8m4.700-8v8m4.600-8v8M19 10v8M3 20h18"/>',
+  kontakty: '<circle cx="9" cy="8" r="3.500"/><path d="M2.500 20c.6-3.600 3.200-5.500 6.500-5.500s5.900 1.900 6.500 5.500"/><path d="M16 5a3 3 0 0 1 0 6m2.500 4c1.700.8 2.700 2.400 3 5"/>',
+  cenik: '<path d="M4 6h16M4 12h16M4 18h10"/>', sablony: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10"/>',
+  dph: '<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.500"/><circle cx="17" cy="17" r="2.500"/>', dan: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h2m2 0h2M9 16h2m2 0h2"/>',
+  nastaveni: '<path d="M4 6h8m4 0h4M4 12h2m4 0h10M4 18h10m4 0h2"/><circle cx="14" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/>',
+  vice: '<circle cx="5" cy="12" r="1.500"/><circle cx="12" cy="12" r="1.500"/><circle cx="19" cy="12" r="1.500"/>'};
+const ico = k => `<svg viewBox="0 0 24 24">${IC[k] || ''}</svg>`;
+const NAV = [['prehled', 'Přehled'], ['vydane', 'Vydané faktury'], ['prijate', 'Přijaté doklady'], ['banka', 'Banka'], ['kontakty', 'Kontakty'], ['cenik', 'Ceník'], ['sablony', 'Šablony'], ['-', 'Daně'], ['dph', 'DPH'], ['dan', 'Daň z příjmů'], ['-', 'Systém'], ['nastaveni', 'Nastavení']];
+const TABS = [['prehled', 'Přehled'], ['vydane', 'Vydané'], ['prijate', 'Přijaté'], ['banka', 'Banka'], ['vice', 'Více']];
+const TOP = NAV.filter(n => n[0] !== '-').map(n => n[0]).concat(['vice', 'hledat']);
+function shell() {
+  $('#nav').innerHTML = NAV.map(([k, t]) => k === '-' ? `<div class="sep">${t}</div>` : `<a href="#${k}" data-v="${k}">${ico(k)}${t}</a>`).join('');
+  $('#tabs').innerHTML = TABS.map(([k, t]) => `<a href="#${k}" data-v="${k}">${ico(k)}${t}</a>`).join('');
+  let tm; $('#q').addEventListener('input', e => { clearTimeout(tm); const v = e.target.value.trim(); tm = setTimeout(() => { if (v.length >= 2) go('hledat', v); else if (cur.view === 'hledat') go('prehled'); }, 220); });
+}
+function render() {
+  const top = {vydana: 'vydane', prijata: 'prijate', kontakt: 'kontakty', sablona: 'sablony'}[cur.view.split('-')[0]] || cur.view;
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === top));
+  const mob = TABS.some(t => t[0] === top) ? top : 'vice'; document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === mob));
+  try { $('#main').innerHTML = (V[cur.view] || V.prehled)(cur.arg); if ($('#sum')) A.sum(); } catch (e) { $('#main').innerHTML = `<div class="card err">Chyba: ${esc(e.message)}</div>`; console.error(e); }
+  status();
+}
+function status() {
+  const el = $('#sync'); if (!el) return; const ceka = dirty.length ? ` · ${dirty.length} čeká` : '';
+  el.innerHTML = G.busy ? '<span class="dot w"></span>Synchronizuji…' : tokenOk() ? `<span class="dot ok"></span>Google Disk připojen${ceka}<br><a href="#" onclick="A.connect();return false">Synchronizovat</a>`
+    : cfg.clientId ? `<span class="dot w"></span>Disk odpojen${ceka}<br><a href="#" onclick="A.connect();return false">Připojit Google Disk</a>` : '<span class="dot"></span>Data jen v tomto zařízení';
+}
+V.vice = () => `<h1>Více</h1><div class="cards">${NAV.filter(n => n[0] !== '-' && !TABS.some(t => t[0] === n[0])).map(([k, t]) => `<a class="card" href="#${k}" style="display:flex;gap:10px;align-items:center;color:inherit;font-weight:600"><span style="color:var(--acc);display:flex">${ico(k).replace('<svg', '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"')}</span>${t}</a>`).join('')}</div><div class="card muted" id="sync2"></div>`;
+
+/* ---------- stav dokladu, filtry, export ---------- */
+const ks = (n, a, b, c) => n + ' ' + (n === 1 ? a : n >= 2 && n <= 4 ? b : c), fakt = n => ks(n, 'faktura', 'faktury', 'faktur');
+const uhrazeno = d => r2((d.uhrady || []).reduce((s, u) => s + (+u.castka || 0), 0));
+function stavKod(d) {
+  if (d.storno) return 'storno'; const tot = +(d.soucty || {}).celkem || 0, u = uhrazeno(d);
+  if ((d.uhrady || []).length && Math.abs(u) >= Math.abs(tot) - 0.005) return 'uhrazeno'; if ((d.uhrady || []).length) return 'castecne';
+  return d.splatnost && d.splatnost < today() && tot > 0 ? 'po' : 'neuhrazeno';
+}
+function stavTag(d) { const k = stavKod(d), dob = d.druh === 'dobropis' ? '<span class="tag blue">dobropis</span> ' : '';
+  return dob + {storno: '<span class="tag gray">storno</span>', uhrazeno: '<span class="tag ok">uhrazeno</span>', castecne: '<span class="tag warn">částečně</span>', po: '<span class="tag bad">po splatnosti</span>', neuhrazeno: '<span class="tag">neuhrazeno</span>'}[k]; }
+const flt = {vydane: {q: '', rok: '', stav: ''}, prijate: {q: '', rok: '', stav: ''}, kontakty: {q: ''}};
+const hled = s => bezDia(String(s ?? '')).toLowerCase();
+function filtruj(typ) {
+  const f = flt[typ === 'vydana' ? 'vydane' : 'prijate'], q = hled(f.q), dk = typ === 'vydana' ? 'datum_vystaveni' : 'datum_uplatneni';
+  return Store.docs().filter(d => d.typ === typ && (!f.rok || (d[dk] || '').startsWith(f.rok)) && (!f.stav || stavKod(d) === f.stav || (f.stav === 'otevrene' && ['neuhrazeno', 'po', 'castecne'].includes(stavKod(d))))
+    && (!q || hled([d.cislo, (d.partner || {}).nazev, d.popis, d.objednavka, d.externi_cislo, d.vs, (d.soucty || {}).celkem, (d.polozky || []).map(p => p.nazev).join(' ')].join(' ')).includes(q)))
+    .sort((a, b) => ((b[dk] || '') + b.cislo).localeCompare((a[dk] || '') + a.cislo));
+}
+const roky = typ => [...new Set(Store.docs().filter(d => d.typ === typ).map(d => (d.datum_vystaveni || d.duzp || '').slice(0, 4)).filter(Boolean))].sort().reverse();
+function filtrBar(view, typ, stavy) { const f = flt[view];
+  return `<div class="row noprint"><input class="s" type="search" placeholder="Hledat…" value="${esc(f.q)}" oninput="A.flt('${view}','q',this.value)">
+    <select onchange="A.flt('${view}','rok',this.value)"><option value="">Všechny roky</option>${roky(typ).map(y => `<option${f.rok === y ? ' selected' : ''}>${y}</option>`).join('')}</select>
+    <select onchange="A.flt('${view}','stav',this.value)">${stavy.map(([k, t]) => `<option value="${k}"${f.stav === k ? ' selected' : ''}>${t}</option>`).join('')}</select>
+    <button onclick="A.csv('${typ}')">Export CSV</button></div>`; }
+A.flt = (view, k, v) => { flt[view][k] = v; const e = $('#list'); if (e) e.innerHTML = view === 'vydane' ? tabVydane(filtruj('vydana'), true) : view === 'prijate' ? tabPrijate(filtruj('prijata')) : tabKontakty(); };
+A.csv = typ => { const rows = [['Číslo', 'Partner', 'IČO', 'DIČ', 'Vystaveno', 'DUZP', 'Splatnost', 'Měna', 'Základ', 'DPH', 'Celkem', 'Celkem Kč', 'Stav', 'Uhrazeno dne', 'Popis']];
+  for (const d of filtruj(typ)) { const p = d.partner || {}, S = d.soucty || {}; rows.push([d.cislo, p.nazev, p.ico, p.dic, d.datum_vystaveni, d.duzp, d.splatnost, d.mena || 'CZK', S.zaklad, S.dph, S.celkem, S.celkem_czk, stavKod(d), (d.uhrady || []).map(u => u.datum).join(' '), d.popis]); }
+  download(`${typ === 'vydana' ? 'vydane' : 'prijate'}-${today()}.csv`, '﻿' + rows.map(r => r.map(c => { const s = typeof c === 'number' ? String(c).replace('.', ',') : String(c ?? ''); return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(';')).join('\r\n'), 'text/csv'); };
+
+function tabVydane(list, foot) {
+  if (!list.length) return '<div class="card muted">Žádné doklady.</div>';
+  const sumZ = list.filter(d => !d.storno).reduce((s, d) => s + (+d.soucty.zaklad_czk || 0), 0), sumC = list.filter(d => !d.storno).reduce((s, d) => s + (+d.soucty.celkem_czk || 0), 0);
+  return `<div class="card flat"><div class="tw"><table><thead><tr><th>Číslo</th><th>Odběratel</th><th class="hide-m">Vystaveno</th><th class="hide-m">Splatnost</th><th class="r">Celkem</th><th>Stav</th></tr></thead><tbody>${list.map(d =>
+    `<tr class="clk" onclick="go('vydana','${esc(d.cislo)}')"><td><b>${esc(d.cislo)}</b></td><td>${esc((d.partner || {}).nazev)}${d.popis && d.popis !== (d.partner || {}).nazev ? `<br><small class="muted">${esc(d.popis)}</small>` : ''}</td><td class="hide-m nw">${fd(d.datum_vystaveni)}</td><td class="nw hide-m">${fd(d.splatnost)}</td><td class="r">${kc(d.soucty.celkem, d.mena)}</td><td>${stavTag(d)}</td></tr>`).join('')}</tbody>
+    ${foot ? `<tfoot><tr><td colspan="2">${list.length} dokladů · bez DPH ${kc(sumZ)}</td><td class="hide-m"></td><td class="hide-m"></td><td class="r">${kc(sumC)}</td><td></td></tr></tfoot>` : ''}</table></div></div>`;
+}
+V.vydane = () => { const sab = Store.sablony();
+  return `<div class="hd"><h1>Vydané faktury</h1>${sab.length ? `<select style="width:auto" onchange="if(this.value){A.zeSablony(this.value)}"><option value="">Ze šablony…</option>${sab.map(s => `<option value="${esc(s.id)}">${esc(s.nazev)}</option>`).join('')}</select>` : ''}<button class="pri only-m" onclick="A.novaVydana()">+ Nová faktura</button></div>
+  ${filtrBar('vydane', 'vydana', [['', 'Všechny stavy'], ['otevrene', 'Neuhrazené'], ['po', 'Po splatnosti'], ['uhrazeno', 'Uhrazené'], ['storno', 'Stornované']])}<div id="list">${tabVydane(filtruj('vydana'), true)}</div>`; };
+
+/* ---------- faktura: náhled k tisku (cs / en / de) ---------- */
+function invoiceHtml(d) {
+  const f = Store.firma(), n = Store.nast(), lang = L10N[d.jazyk] ? d.jazyk : 'cs', L = L10N[lang], p = d.partner || {}, u = d.ucet || {}, mena = d.mena || 'CZK', cizi = mena !== 'CZK';
+  const rec = {}; for (const it of d.polozky) { rec[it.sazba] = rec[it.sazba] || [0, 0]; rec[it.sazba][0] += +it.zaklad; rec[it.sazba][1] += +it.dph; }
+  const stat = p.stat && STATY[String(p.stat).toUpperCase()] ? statNazev(p.stat, lang) : (p.stat_nazev || (p.stat && p.stat !== 'CZ' ? p.stat : L.stat));
+  const qr = n.faktura.epc_qr === false && cizi ? null : payQr(d, f), nb = t => esc(t).replace(/\n/g, '<br>');
+  return `<div class="paper" style="--c:${esc(n.faktura.barva || '#1E9BE0')}">
+  <div class="ph"><div>${n.faktura.logo ? `<img class="plogo" src="${esc(n.faktura.logo)}" alt="">` : ''}<small>${L.dodavatel}</small><b>${esc(f.nazev)}</b><br>${esc(f.ulice)}<br>${esc(f.psc)} ${esc(f.mesto)}<br>${statNazev('CZ', lang)}<br>${L.ic}: ${esc(f.ico)} &nbsp; ${L.dic}: ${esc(f.dic)}
+    <div class="pc">${f.email ? esc(f.email) + '<br>' : ''}${esc(f.telefon || '')}</div></div>
+  <div><div class="pt">${d.druh === 'dobropis' ? L.dobropis : L.faktura}</div><div class="pn">${esc(d.cislo)}</div>
+    <small>${L.odberatel}</small><b>${esc(p.nazev)}</b><br>${esc(p.ulice || '')}<br>${esc(p.psc || '')} ${esc(p.mesto || '')}<br>${esc(stat)}<br>
+    ${p.ico ? L.ic + ': ' + esc(p.ico) + ' &nbsp; ' : ''}${p.dic ? L.dic + ': ' + esc(p.dic) : ''}${d.objednavka ? `<br>${L.objednavka}: ${esc(d.objednavka)}` : ''}${d.k_dokladu ? `<br>${L.k_dokladu}: ${esc(d.k_dokladu)}` : ''}</div></div>
+  <div class="pd"><span>${L.vystaveno}: <b>${fd(d.datum_vystaveni)}</b></span><span>${L.duzp}: <b>${fd(d.duzp)}</b></span><span>${L.splatnost}: <b>${fd(d.splatnost)}</b></span></div>
+  <div class="pb"><div><small>${L.ucet}</small><b>${esc(cizi ? '' : u.cislo || '')}</b>${cizi ? '' : '<br>'}IBAN: ${esc(u.iban_tisk || ibanTisk(u.iban))}<br>BIC/SWIFT: ${esc(u.swift || '')}</div>
+    <div>${cizi ? `<small>${L.ref}</small><b class="big">${esc(d.cislo)}</b><br>${L.zpusob}` : `<small>${L.symbol}</small>${L.vs}: <b>${esc(d.vs || '')}</b><br>${L.ks}: <b>${esc(f.konstantni_symbol || '')}</b><br>${L.zpusob}`}</div>
+    <div class="r"><small>${L.k_uhrade}</small><b class="big">${kc(d.soucty.celkem, mena)}</b></div>
+    ${qr ? `<div class="qr">${qrSvg(qr.text)}<small>${qr.typ === 'epc' ? 'SEPA QR' : L.qr}</small></div>` : ''}</div>
+  <table class="pi"><thead><tr><th>${L.popis}</th><th class="r">${L.mnozstvi}</th><th class="r">${L.cena}</th><th class="r">${L.dph_pct}</th><th class="r">${L.bez_dph}</th><th class="r">${L.dph}</th><th class="r">${L.celkem}</th></tr></thead>
+  <tbody>${d.polozky.map(it => `<tr><td>${esc(it.nazev)}</td><td class="r">${fmt(it.mnozstvi)} ${esc(it.jednotka || '')}</td><td class="r">${fmt(it.cena)}</td><td class="r">${it.sazba}</td><td class="r">${fmt(it.zaklad)}</td><td class="r">${fmt(it.dph)}</td><td class="r"><b>${fmt(it.celkem)}</b></td></tr>`).join('')}</tbody></table>
+  ${d.text ? `<p class="ptx">${nb(d.text)}</p>` : ''}
+  <table class="pr"><thead><tr><th>${L.sazba}</th><th class="r">${L.zaklad}</th><th class="r">${L.vyse_dph}</th><th class="r">${L.celkem}</th></tr></thead>
+  <tbody>${Object.keys(rec).sort((a, b) => b - a).map(s => `<tr><td>${s} %</td><td class="r">${kc(rec[s][0], mena)}</td><td class="r">${kc(rec[s][1], mena)}</td><td class="r"><b>${kc(rec[s][0] + rec[s][1], mena)}</b></td></tr>`).join('')}</tbody></table>
+  <div class="ptot"><span>${L.celkem_k_uhrade}:</span><b>${kc(d.soucty.celkem, mena)}</b></div>
+  ${cizi ? `<p class="r"><b>${kc(d.soucty.celkem_czk)}</b><br><small>${L.kurz}: ${fmt(d.kurz, 3)} Kč / 1 ${mena}</small></p>` : ''}
+  ${d.text_rezim ? `<p class="ptx"><b>${nb(d.text_rezim)}</b></p>` : ''}
+  ${cizi && d.druh !== 'dobropis' ? `<p class="phint">${esc(L.ref_hint.replace('{n}', d.cislo))}</p>` : ''}
+  <div class="pf">${L.vystavil}: ${esc(f.nazev)}, ${fd(d.datum_vystaveni)}</div></div>`;
+}
+const vypln = (t, d) => t.replace(/\{n\}/g, d.cislo).replace(/\{castka\}/g, kc(d.soucty.celkem, d.mena)).replace(/\{splatnost\}/g, fd(d.splatnost)).replace(/\{firma\}/g, Store.firma().nazev || '');
+A.mail = async (c, upo) => { const d = Store.get(c, 'vydana'), L = L10N[d.jazyk] || L10N.cs, k = Store.kontakt((d.partner || {}).ico) || Store.kontakt((d.partner || {}).dic) || Store.kontakt((d.partner || {}).nazev) || {};
+  location.href = `mailto:${encodeURIComponent((d.partner || {}).email || k.email || '')}?subject=${encodeURIComponent(vypln(upo ? L.upo_predmet : L.mail_predmet, d))}&body=${encodeURIComponent(vypln(upo ? L.upo_text : L.mail_text, d))}`;
+  toast('Otevírám e-mail. PDF faktury si předtím ulož tlačítkem Tisk / PDF a přilož ho ke zprávě.');
+  if (!upo && !d.odeslano) { await novaVerze(d, {odeslano: today()}); render(); } };
+A.isdoc = c => { const d = Store.get(c, 'vydana'); download(d.cislo + '.isdoc', ISDOC.xml(d, Store.firma()), 'application/xml'); };
+A.tisk = c => { const t = document.title; document.title = 'Faktura ' + c; window.print(); setTimeout(() => document.title = t, 800); };
+
+V.vydana = cislo => {
+  const d = Store.get(cislo, 'vydana'); if (!d) return '<p>Doklad nenalezen.</p>'; const c = esc(cislo), k = stavKod(d), otevr = !d.storno && k !== 'uhrazeno';
+  return `<div class="noprint"><div class="row"><button onclick="go('vydane')">← Zpět</button><button class="pri" onclick="A.tisk('${c}')">Tisk / PDF</button>
+    ${otevr ? `<button onclick="A.uhrada('${c}','vydana')">Zapsat úhradu</button>` : ''}${d.storno ? '' : `<button onclick="A.mail('${c}')">E-mail</button>${k === 'po' ? `<button onclick="A.mail('${c}',1)">Upomínka</button>` : ''}`}
+    <button onclick="A.isdoc('${c}')">ISDOC</button>${d.storno ? '' : `<button onclick="A.upravVydanou('${c}')">Upravit</button>`}<button onclick="A.kopie('${c}')">Kopie</button>
+    ${d.storno || d.druh === 'dobropis' ? '' : `<button onclick="A.dobropis('${c}')">Dobropis</button>`}<button onclick="A.jakoSablonu('${c}')">Jako šablonu</button>
+    ${d.storno ? '' : `<button class="dng" onclick="A.storno('${c}','vydana')">Storno</button>`}</div>
+    <p class="muted">${stavTag(d)} ${(d.uhrady || []).map(u => `úhrada ${fd(u.datum)} ${fmt(u.castka)}${u.kurz ? ' (kurz ' + fmt(u.kurz, 3) + ')' : ''}${u.banka_id ? ' · Fio' : ''}`).join(', ')}${d.odeslano ? ' · odesláno ' + fd(d.odeslano) : ''} · verze ${d._ver < 1 ? 'z iDokladu' : d._ver}
+    ${(d.uhrady || []).length && !d.storno ? ` · <a href="#" onclick="A.zrusUhrady('${c}','vydana');return false">zrušit úhrady</a>` : ''}</p><div id="ask"></div></div>${invoiceHtml(d)}`;
+};
+A.zrusUhrady = async (c, typ) => { await novaVerze(Store.get(c, typ), {uhrady: []}); toast('Úhrady zrušeny.'); render(); };
+
+/* ---------- kurzy ČNB (přes kurzy.cz, který je z prohlížeče dostupný; záloha přes veřejnou proxy na cnb.cz) ---------- */
+async function cnbKurz(mena, datumIso) {
+  try { const j = await (await fetch(`https://data.kurzy.cz/json/meny/b[6]den[${datumIso.replace(/-/g, '')}].json`)).json(), k = j.kurzy[mena]; if (k && k.dev_stred) return +(k.dev_stred / (k.jednotka || 1)).toFixed(4); } catch (e) {}
+  const url = `https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date=${fd(datumIso)}`;
+  const t = await (await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url))).text(), ln = t.split('\n').find(l => l.split('|')[3] === mena); if (!ln) throw new Error('kurz nenalezen');
+  const p = ln.split('|'); return +(num(p[4]) / num(p[2])).toFixed(4);
+}
+A.kurz = async () => { A.read(); try { F.kurz = (await cnbKurz(F.mena, F.duzp)).toFixed(3); render(); toast('Kurz ČNB k ' + fd(F.duzp) + ': ' + F.kurz); } catch (e) { toast('Kurz se nepodařilo načíst – zadej ho ručně podle kurzovního lístku ČNB k DUZP.', true); } };
+A.uhrada = (c, typ) => { const d = Store.get(c, typ), cizi = d.mena && d.mena !== 'CZK', zb = Banka.zbyva(d);
+  $('#ask').innerHTML = `<div class="card"><h3>Úhrada dokladu ${esc(c)}</h3><div class="grid">${fld('Datum úhrady', 'u_datum', today(), 'date', cizi ? `onchange="A.uhradaKurz('${d.mena}')"` : '')}${fld('Částka ' + (d.mena || 'CZK'), 'u_castka', zb, 'text', 'inputmode="decimal"')}
+    ${cizi ? `<label class="f"><span>Kurz ČNB ke dni úhrady <a href="#" onclick="A.uhradaKurz('${d.mena}');return false">načíst</a></span><input data-k="u_kurz" inputmode="decimal" value=""></label>` : ''}</div>
+    ${cizi && typ === 'vydana' ? '<p class="muted">Kurz ke dni úhrady se použije pro příjmy v dani z příjmů.</p>' : ''}<div class="row"><button class="pri" onclick="A.uhradaOk('${esc(c)}','${typ}')">Zapsat</button><button onclick="render()">Zrušit</button></div></div>`;
+  if (cizi) A.uhradaKurz(d.mena); };
+A.uhradaKurz = async mena => { const e = $('#ask [data-k=u_datum]'), k = $('#ask [data-k=u_kurz]'); if (!e || !k) return; try { k.value = String(await cnbKurz(mena, e.value)).replace('.', ','); } catch (x) { toast('Kurz se nepodařilo načíst, zadej ho ručně.', true); } };
+A.uhradaOk = async (c, typ) => { const v = collect($('#ask')), d = Store.get(c, typ), u = {datum: v.u_datum, castka: num(v.u_castka)}; if (!u.datum || !u.castka) return toast('Vyplň datum a částku.', true);
+  if (v.u_kurz !== undefined && num(v.u_kurz)) u.kurz = num(v.u_kurz); await novaVerze(d, {uhrady: (d.uhrady || []).concat([u])}); toast('Úhrada zapsána.'); render(); };
+
+/* ---------- formulář vydané faktury ---------- */
+function blankVydana(pre) {
+  const n = Store.nast(), t = today();
+  return Object.assign({typ: 'vydana', mode: 'new', druh: 'faktura', k_dokladu: '', odberatel: '', cislo: '', datum_vystaveni: t, duzp: t, splatnost: addDays(t, n.faktura.splatnost_dni), mena: 'CZK', kurz: '',
+    rezim: 'tuzemsko', jazyk: 'cs', objednavka: '', text: n.faktura.text_cs, popis: '', items: [{nazev: '', mnozstvi: 1, jednotka: '', cena: 0, sazba: 21}]}, pre || {});
+}
+const defText = (c, jazyk) => { const n = Store.nast(); return c && c.text_na_fakture ? c.text_na_fakture : (n.faktura['text_' + jazyk] ?? n.faktura.text_cs); };
+function applyKontakt(F, k) {
+  const c = Store.kontakt(k), n = Store.nast(); if (!c) return;
+  F.odberatel = c.klic; F.rezim = c.rezim || 'tuzemsko'; F.mena = c.mena || 'CZK'; F.jazyk = c.jazyk || 'cs';
+  F.splatnost = addDays(F.datum_vystaveni, c.splatnost_dni || n.faktura.splatnost_dni);
+  F.text = defText(c, F.jazyk); if (c.objednavka) F.objednavka = c.objednavka;
+  F.items.forEach(i => i.sazba = REZIM[F.rezim].sazba);
+}
+A.upravVydanou = c => { const d = Store.get(c, 'vydana'); F = Object.assign(docToForm(d), {mode: 'edit', _old: d, druh: d.druh || 'faktura', k_dokladu: d.k_dokladu || ''}); go('vydana-form'); };
+A.dobropis = c => { const d = Store.get(c, 'vydana'), t = today(), L = L10N[d.jazyk] || L10N.cs; F = Object.assign(docToForm(d), {mode: 'new', druh: 'dobropis', k_dokladu: d.cislo, cislo: '', datum_vystaveni: t, duzp: t, splatnost: addDays(t, 14), text: `${L.k_dokladu} ${d.cislo}.`});
+  F.items.forEach(i => i.mnozstvi = -Math.abs(+i.mnozstvi || 1)); go('vydana-form'); };
+const Cenik = () => Object.keys(Store.files).filter(p => p.startsWith('cenik/')).map(p => Store.files[p]).sort((a, b) => (a.nazev || '').localeCompare(b.nazev || '', 'cs'));
+function nabidka() { const m = new Map(); for (const c of Cenik()) m.set(c.nazev, {cena: c.cena, jednotka: c.jednotka});
+  const k = F && Store.kontakt(F.odberatel), nz = k && k.nazev;
+  for (const d of Store.docs().filter(d => d.typ === 'vydana' && !d.storno && (!nz || (d.partner || {}).nazev === nz)).sort((a, b) => b.datum_vystaveni.localeCompare(a.datum_vystaveni)).slice(0, 24)) for (const p of d.polozky) if (p.nazev && !m.has(p.nazev)) m.set(p.nazev, {cena: p.cena, jednotka: p.jednotka});
+  return m; }
+A.itemPick = (i, val) => { if (!F || F.typ !== 'vydana') return; const h = nabidka().get(val); if (h && !(+F.items[i].cena)) { A.read(); F.items[i].nazev = val; F.items[i].cena = h.cena; F.items[i].jednotka = h.jednotka || ''; render(); } };
+A.fch = what => { A.read(); if (what === 'odb') applyKontakt(F, F.odberatel); if (what === 'rezim') F.items.forEach(i => i.sazba = REZIM[F.rezim].sazba);
+  if (what === 'jazyk') F.text = defText(Store.kontakt(F.odberatel), F.jazyk);
+  if (what === 'datum' && F.typ === 'vydana') { const c = Store.kontakt(F.odberatel) || {}; F.duzp = F.datum_vystaveni; F.splatnost = addDays(F.datum_vystaveni, c.splatnost_dni || Store.nast().faktura.splatnost_dni); }
+  if (what === 'duzp' && F.typ === 'prijata') F.datum_uplatneni = lastDay(F.duzp); render(); };
+V['vydana-form'] = () => {
+  if (!F || F.typ !== 'vydana') return V.vydane();
+  const ks = Store.kontakty(), dob = F.druh === 'dobropis';
+  return `<h1>${F.mode === 'edit' ? 'Úprava dokladu ' + esc(F.cislo) : dob ? 'Opravný daňový doklad k faktuře ' + esc(F.k_dokladu) : 'Nová faktura'}</h1><div id="form" class="card">
+  <div class="grid">${sel('Odběratel', 'odberatel', F.odberatel, [['', '— vyber —']].concat(ks.map(k => [k.klic, k.nazev])), `onchange="A.fch('odb')"`)}
+  ${fld('Číslo (prázdné = další v řadě)', 'cislo', F.cislo, 'text', F.mode === 'edit' ? 'disabled' : '')}
+  ${fld('Datum vystavení', 'datum_vystaveni', F.datum_vystaveni, 'date', `onchange="A.fch('datum')"`)}${fld('Datum zdan. plnění', 'duzp', F.duzp, 'date')}${fld('Splatnost', 'splatnost', F.splatnost, 'date')}
+  ${sel('Režim DPH', 'rezim', F.rezim, Object.keys(REZIM).map(k => [k, REZIM[k].nazev]), `onchange="A.fch('rezim')"`)}${sel('Měna', 'mena', F.mena, ['CZK', 'EUR', 'USD'], `onchange="A.fch()"`)}
+  ${F.mena !== 'CZK' ? `<label class="f"><span>Kurz ČNB k DUZP <a href="#" onclick="A.kurz();return false">načíst</a></span><input data-k="kurz" inputmode="decimal" value="${esc(F.kurz)}" oninput="F.kurz=this.value;A.sum()"></label>` : ''}
+  ${sel('Jazyk faktury', 'jazyk', F.jazyk, Object.keys(L10N).map(k => [k, L10N[k].jazyk]), `onchange="A.fch('jazyk')"`)}${fld('Objednávka', 'objednavka', F.objednavka)}${fld('Interní popis', 'popis', F.popis)}</div>
+  <datalist id="cenik">${[...nabidka().keys()].map(n => `<option value="${esc(n)}">`).join('')}</datalist>
+  <div class="tw"><table class="items"><thead><tr><th>Položka</th><th>Množství</th><th>MJ</th><th>Cena za MJ bez DPH</th><th>DPH %</th><th></th></tr></thead><tbody>${itemsRows()}</tbody></table></div>
+  <button onclick="A.read();F.items.push({nazev:'',mnozstvi:${dob ? -1 : 1},jednotka:'',cena:0,sazba:REZIM[F.rezim].sazba});render()">+ položka</button>
+  ${dob ? '<p class="muted">U opravného dokladu zadej záporné množství (částka, o kterou se původní faktura snižuje).</p>' : ''}
+  <label class="f wide"><span>Text na faktuře</span><textarea data-k="text" rows="2">${esc(F.text)}</textarea></label>
+  <div id="sum" class="sum"></div><div class="row"><button class="pri" onclick="A.ulozVydanou()">Uložit ${dob ? 'doklad' : 'fakturu'}</button><button onclick="go('vydane')">Zrušit</button></div></div>`;
+};
+A.ulozVydanou = async () => {
+  try {
+    A.read(); const f = Store.firma(), n = Store.nast(), c = Store.kontakt(F.odberatel), R = REZIM[F.rezim];
+    if (!c) throw new Error('Vyber odběratele (založíš ho v Kontaktech).');
+    if (!F.items.length || F.items.some(i => !i.nazev)) throw new Error('Každá položka musí mít popis.');
+    const [cc] = splitVat(c.dic);
+    if (F.rezim === 'eu_sluzba' && (!EU.includes(cc))) throw new Error('Režim „služba do EU“ vyžaduje odběratele s VAT ID státu EU.');
+    if (F.rezim === 'tuzemsko' && cc && cc !== 'CZ') throw new Error('Tuzemský režim u zahraničního odběratele – zkontroluj režim DPH.');
+    const kurz = F.mena === 'CZK' ? 1 : num(F.kurz); if (!kurz) throw new Error('U cizí měny vyplň kurz ČNB k DUZP.');
+    const ucet = (f.ucty || {})[F.mena]; if (!ucet) throw new Error('V Nastavení chybí bankovní účet pro měnu ' + F.mena + '.');
+    const old = F._old, all = Store.docs().filter(d => d.typ === 'vydana').map(d => d.cislo);
+    const cislo = F.mode === 'edit' ? old.cislo : (F.cislo || nextNumber(n.rady.vydane, F.datum_vystaveni, all));
+    if (F.mode !== 'edit' && all.includes(cislo)) throw new Error('Číslo ' + cislo + ' už existuje.');
+    const [polozky, soucty] = formSums(), ver = F.mode === 'edit' ? Math.max(1, old._ver) + 1 : 1, dob = F.druh === 'dobropis';
+    if (dob && soucty.celkem >= 0) throw new Error('Opravný doklad má mít zápornou částku – zadej záporné množství.');
+    if (!dob && soucty.celkem < 0) throw new Error('Záporná faktura – pro snížení částky použij tlačítko Dobropis u původní faktury.');
+    const d = {typ: 'vydana', cislo, verze: ver, vs: digits(cislo).slice(0, 10),
+      partner: {nazev: c.nazev, ulice: c.ulice, mesto: c.mesto, psc: c.psc, stat: c.stat, stat_nazev: c.stat_nazev, ico: c.ico || null, dic: c.dic || null, email: c.email || null},
+      datum_vystaveni: F.datum_vystaveni, duzp: F.duzp, datum_uplatneni: F.duzp, splatnost: F.splatnost, mena: F.mena, kurz, kurz_mnozstvi: 1, rezim: F.rezim, jazyk: F.jazyk,
+      polozky, soucty, ucet: {cislo: ucet.cislo, iban: ucet.iban, iban_tisk: ucet.iban_tisk || ibanTisk(ucet.iban), swift: ucet.swift, banka: ucet.banka}, text: F.text, text_rezim: R['text_' + F.jazyk] || R.text_en || null,
+      objednavka: F.objednavka || null, popis: F.popis || c.nazev, uhrady: old ? (old.uhrady || []) : [], dan_z_prijmu: true, zdroj: 'fakturace-web', vytvoreno: new Date().toISOString().slice(0, 19)};
+    if (dob) { d.druh = 'dobropis'; d.k_dokladu = F.k_dokladu; }
+    if (old && old.odeslano) d.odeslano = old.odeslano;
+    const q = payQr(d, f); d.qr = q && q.typ === 'spayd' ? q.text : null;
+    await save(`vydane/${F.datum_vystaveni.slice(0, 4)}/${cislo}${ver > 1 ? '.v' + ver : ''}.json`, d);
+    F = null; toast('Doklad ' + cislo + ' uložen.'); go('vydana', cislo);
+  } catch (e) { toast(e.message, true); }
+};
+
+/* ---------- přijaté doklady: seznam s filtry, import ISDOC ---------- */
+function tabPrijate(list) {
+  if (!list.length) return '<div class="card muted">Žádné doklady.</div>'; const ok = list.filter(d => !d.storno);
+  return `<div class="card flat"><div class="tw"><table><thead><tr><th>Číslo</th><th>Dodavatel</th><th class="hide-m">Č. dokladu</th><th>DUZP</th><th class="r">Celkem</th><th class="r hide-m">DPH Kč</th><th class="hide-m">Členění</th><th>Stav</th></tr></thead><tbody>${list.map(d =>
+    `<tr class="clk" onclick="go('prijata','${esc(d.cislo)}')"><td><b>${esc(d.cislo)}</b></td><td>${esc((d.partner || {}).nazev)}${d.popis && d.popis !== (d.partner || {}).nazev ? `<br><small class="muted">${esc(d.popis)}</small>` : ''}</td><td class="hide-m">${esc(d.externi_cislo || '')}</td><td class="nw">${fd(d.duzp)}</td><td class="r">${kc(d.soucty.celkem, d.mena)}</td><td class="r hide-m">${fmt(d.soucty.dph_czk)}</td><td class="hide-m">${esc([...new Set(d.polozky.map(p => p.cleneni))].join(', '))}</td><td>${stavTag(d)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td colspan="2">${list.length} dokladů</td><td class="hide-m"></td><td></td><td class="r">${kc(ok.reduce((s, d) => s + (+d.soucty.celkem_czk || 0), 0))}</td><td class="r hide-m">${fmt(ok.reduce((s, d) => s + (+d.soucty.dph_czk || 0), 0))}</td><td class="hide-m"></td><td></td></tr></tfoot></table></div></div>`;
+}
+V.prijate = () => `<div class="hd"><h1>Přijaté doklady</h1><label class="btn">Načíst ISDOC<input type="file" accept=".isdoc,.xml" hidden onchange="A.isdocImport(this.files[0])"></label><button class="pri" onclick="A.novaPrijata()">+ Přijatý doklad</button></div>
+  ${filtrBar('prijate', 'prijata', [['', 'Všechny stavy'], ['otevrene', 'Neuhrazené'], ['uhrazeno', 'Uhrazené'], ['storno', 'Stornované']])}<div id="list">${tabPrijate(filtruj('prijata'))}</div>`;
+A.isdocImport = async file => { if (!file) return; try { const p = ISDOC.parse(await file.text()); F = Object.assign(blankPrijata(), p); if (!F.items.length) F.items = blankPrijata().items; F.datum_uplatneni = lastDay(F.duzp || today()); F.popis = F.p_nazev; go('prijata-form'); toast('Načteno z ISDOC – zkontroluj členění DPH a ulož.'); } catch (e) { toast(e.message, true); } };
+
+/* ---------- kontakty ---------- */
+function tabKontakty() { const q = hled(flt.kontakty.q), ks = Store.kontakty().filter(k => !q || hled([k.nazev, k.ico, k.dic, k.mesto, (k.aliasy || []).join(' ')].join(' ')).includes(q));
+  return ks.length ? `<div class="card flat"><div class="tw"><table><thead><tr><th>Název</th><th>IČO</th><th class="hide-m">DIČ</th><th class="hide-m">Město</th><th>Faktura</th></tr></thead><tbody>${ks.map(k => `<tr class="clk" onclick="A.kontakt('${esc(k.klic)}')"><td><b>${esc(k.nazev)}</b></td><td>${esc(k.ico || '')}</td><td class="hide-m">${esc(k.dic || '')}</td><td class="hide-m">${esc(k.mesto || '')}</td><td><span class="tag">${esc(k.mena || 'CZK')}</span> <span class="tag blue">${esc((L10N[k.jazyk] || L10N.cs).jazyk)}</span></td></tr>`).join('')}</tbody></table></div></div>` : '<div class="card muted">Žádné kontakty.</div>'; }
+V.kontakty = () => `<div class="hd"><h1>Kontakty</h1><button class="pri" onclick="A.kontakt()">+ Nový kontakt</button></div><div class="row"><input class="s" type="search" placeholder="Hledat…" value="${esc(flt.kontakty.q)}" oninput="A.flt('kontakty','q',this.value)"></div><div id="list">${tabKontakty()}</div>`;
+A.kontakt = k => { const n = Store.nast(); F = Object.assign({typ: 'kontakt', klic: '', nazev: '', ico: '', dic: '', ulice: '', mesto: '', psc: '', stat: 'CZ', stat_nazev: '', email: '', iban: '', rezim: 'tuzemsko', mena: 'CZK', jazyk: 'cs', splatnost_dni: n.faktura.splatnost_dni, text_na_fakture: '', objednavka: '', aliasy: []}, k ? Store.kontakt(k) : {}); F.aliasy_txt = (F.aliasy || []).join(', '); go('kontakt-form'); };
+V['kontakt-form'] = () => {
+  if (!F || F.typ !== 'kontakt') return V.kontakty(); const nz = F.nazev, his = F.klic ? Store.docs().filter(d => !d.storno && (d.partner || {}).nazev === nz) : [];
+  return `<h1>${F.klic ? esc(F.nazev) : 'Nový kontakt'}</h1><div id="form" class="card"><div class="row"><button onclick="A.aresKontakt()">Načíst z ARES podle IČ/DIČ</button></div>
+  <div class="grid">${fld('IČO', 'ico', F.ico)}${fld('DIČ / VAT ID', 'dic', F.dic)}${fld('Název', 'nazev', F.nazev)}${fld('Ulice a číslo', 'ulice', F.ulice)}${fld('Město', 'mesto', F.mesto)}${fld('PSČ', 'psc', F.psc)}${fld('Stát (kód, např. DE)', 'stat', F.stat)}${fld('E-mail pro faktury', 'email', F.email)}${fld('IBAN odběratele (pro párování plateb)', 'iban', F.iban)}</div>
+  <h3>Fakturace</h3><div class="grid">${sel('Režim DPH', 'rezim', F.rezim, Object.keys(REZIM).map(k => [k, REZIM[k].nazev]))}${sel('Měna', 'mena', F.mena, ['CZK', 'EUR', 'USD'])}${sel('Jazyk faktury', 'jazyk', F.jazyk, Object.keys(L10N).map(k => [k, L10N[k].jazyk]))}
+  ${fld('Splatnost (dní)', 'splatnost_dni', F.splatnost_dni, 'number')}${fld('Číslo objednávky (trvalé)', 'objednavka', F.objednavka)}${fld('Zkratky (oddělené čárkou)', 'aliasy_txt', F.aliasy_txt)}</div>
+  <label class="f wide"><span>Vlastní text na faktuře (prázdné = výchozí text v jazyce faktury)</span><textarea data-k="text_na_fakture" rows="2">${esc(F.text_na_fakture || '')}</textarea></label>
+  <div class="row"><button class="pri" onclick="A.ulozKontakt()">Uložit kontakt</button><button onclick="go('kontakty')">Zrušit</button>${F.klic ? `<button onclick="A.novaVydana({odberatel:'${esc(F.klic)}'})">+ Faktura pro kontakt</button>` : ''}</div></div>
+  ${his.length ? `<h2>Doklady kontaktu</h2><div class="cards"><div class="card stat"><span>Vyfakturováno celkem (bez DPH)</span><b>${kc(his.filter(d => d.typ === 'vydana').reduce((s, d) => s + (+d.soucty.zaklad_czk || 0), 0))}</b><small>${his.filter(d => d.typ === 'vydana').length} faktur</small></div>
+    <div class="card stat"><span>Neuhrazeno</span><b>${kc(his.filter(d => d.typ === 'vydana' && stavKod(d) !== 'uhrazeno').reduce((s, d) => s + (+d.soucty.celkem_czk || 0), 0))}</b></div></div>${tabVydane(his.filter(d => d.typ === 'vydana').sort((a, b) => b.cislo.localeCompare(a.cislo)).slice(0, 12))}` : ''}`;
+};
+A.ulozKontakt = async () => { try { A.read(); if (!F.nazev) throw new Error('Vyplň název.'); const k = Object.assign({}, F); delete k.typ; k.aliasy = k.aliasy_txt.split(',').map(s => s.trim()).filter(Boolean); delete k.aliasy_txt;
+  k.ico = digits(k.ico) || ''; k.dic = k.dic.replace(/\s/g, '').toUpperCase(); k.stat = (k.stat || 'CZ').toUpperCase(); k.iban = (k.iban || '').replace(/\s/g, '').toUpperCase(); k.splatnost_dni = parseInt(k.splatnost_dni, 10) || 14; k.klic = k.klic || k.ico || k.dic || slug(k.nazev);
+  if (!k.text_na_fakture) delete k.text_na_fakture; if (STATY[k.stat]) k.stat_nazev = statNazev(k.stat, k.jazyk === 'cs' ? 'cs' : 'en');
+  await save(`kontakty/${k.klic}.json`, k); F = null; toast('Kontakt uložen.'); go('kontakty'); } catch (e) { toast(e.message, true); } };
+
+/* ---------- ceník ---------- */
+let cenEd = null;
+V.cenik = () => { const c = Cenik(), e = cenEd;
+  return `<div class="hd"><h1>Ceník</h1><button class="pri" onclick="cenEd={id:'',nazev:'',jednotka:'h',cena:''};render()">+ Položka</button></div><p class="muted">Položky ceníku se nabízejí při psaní názvu položky na faktuře a doplní cenu a jednotku. Nabízejí se i položky z posledních faktur daného odběratele.</p>
+  ${e ? `<div class="card" id="cen"><div class="grid">${fld('Název položky', 'nazev', e.nazev)}${fld('Jednotka', 'jednotka', e.jednotka)}${fld('Cena za jednotku bez DPH', 'cena', e.cena, 'text', 'inputmode="decimal"')}</div><div class="row"><button class="pri" onclick="A.ulozCenik()">Uložit</button><button onclick="cenEd=null;render()">Zrušit</button></div></div>` : ''}
+  ${c.length ? `<div class="card flat"><div class="tw"><table><thead><tr><th>Název</th><th>Jednotka</th><th class="r">Cena bez DPH</th></tr></thead><tbody>${c.map(x => `<tr class="clk" onclick="cenEd=Object.assign({},Store.files['cenik/${esc(x.id)}.json']);render()"><td><b>${esc(x.nazev)}</b></td><td>${esc(x.jednotka || '')}</td><td class="r">${fmt(x.cena)}</td></tr>`).join('')}</tbody></table></div></div>` : '<div class="card muted">Ceník je prázdný.</div>'}`; };
+A.ulozCenik = async () => { const v = collect($('#cen')); if (!v.nazev) return toast('Vyplň název.', true); const id = cenEd.id || slug(v.nazev) + '-' + Date.now().toString(36);
+  await save(`cenik/${id}.json`, {id, nazev: v.nazev, jednotka: v.jednotka, cena: num(v.cena)}); cenEd = null; toast('Uloženo.'); render(); };
+
+/* ---------- hledání ---------- */
+V.hledat = q => { const h = hled(q), docs = Store.docs().filter(d => hled([d.cislo, (d.partner || {}).nazev, d.popis, d.objednavka, d.externi_cislo, d.vs, (d.soucty || {}).celkem, (d.polozky || []).map(p => p.nazev).join(' ')].join(' ')).includes(h)).sort((a, b) => (b.duzp || '').localeCompare(a.duzp || '')).slice(0, 60);
+  const ks = Store.kontakty().filter(k => hled([k.nazev, k.ico, k.dic].join(' ')).includes(h));
+  return `<h1>Hledání „${esc(q)}“</h1>${ks.length ? `<h2>Kontakty</h2><div class="row">${ks.map(k => `<button onclick="A.kontakt('${esc(k.klic)}')">${esc(k.nazev)}</button>`).join('')}</div>` : ''}
+  <h2>Doklady (${docs.length})</h2>${docs.length ? `<div class="card flat"><div class="tw"><table><thead><tr><th>Číslo</th><th>Typ</th><th>Partner</th><th>DUZP</th><th class="r">Celkem</th><th>Stav</th></tr></thead><tbody>${docs.map(d => `<tr class="clk" onclick="go('${d.typ}','${esc(d.cislo)}')"><td><b>${esc(d.cislo)}</b></td><td>${d.typ === 'vydana' ? 'vydaná' : 'přijatá'}</td><td>${esc((d.partner || {}).nazev)}</td><td class="nw">${fd(d.duzp)}</td><td class="r">${kc(d.soucty.celkem, d.mena)}</td><td>${stavTag(d)}</td></tr>`).join('')}</tbody></table></div></div>` : '<div class="card muted">Nic nenalezeno.</div>'}`; };
+/* ====== Fakturace v2 – přehled, banka (Fio), daň z příjmů a pojistné, nastavení, start ====== */
+const mesKey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+function grafMesice(vyd) {
+  const now = new Date(), ms = []; for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); ms.push({k: mesKey(d), l: MES[d.getMonth()].slice(0, 3), v: 0, u: 0}); }
+  const ix = Object.fromEntries(ms.map((m, i) => [m.k, i]));
+  for (const d of vyd) { const i = ix[(d.duzp || '').slice(0, 7)]; if (i !== undefined) ms[i].v += +d.soucty.zaklad_czk || 0; }
+  const max = Math.max(1, ...ms.map(m => m.v)), W = 720, H = 220, L = 46, B = 24, T = 10, bw = (W - L - 8) / 12, sc = v => (H - B - T) * v / max;
+  const step = Math.pow(10, Math.floor(Math.log10(max))) * (max / Math.pow(10, Math.floor(Math.log10(max))) > 5 ? 2 : max / Math.pow(10, Math.floor(Math.log10(max))) > 2 ? 1 : 0.5), grid = [];
+  for (let v = 0; v <= max * 1.001; v += step) grid.push(v);
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Fakturace po měsících">${grid.map(v => `<line x1="${L}" x2="${W - 4}" y1="${H - B - sc(v)}" y2="${H - B - sc(v)}" stroke="#eef1f6"/><text x="${L - 6}" y="${H - B - sc(v) + 3}" text-anchor="end">${v >= 1000 ? Math.round(v / 1000) + ' tis.' : v}</text>`).join('')}
+    ${ms.map((m, i) => `<g><title>${m.l} ${m.k.slice(0, 4)}: ${kc(m.v)}</title><rect x="${L + i * bw + bw * 0.18}" y="${H - B - sc(m.v)}" width="${bw * 0.64}" height="${Math.max(0, sc(m.v))}" rx="4" fill="${i === 11 ? '#2f6bff' : '#9db8ff'}"/><text x="${L + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${m.l}</text></g>`).join('')}</svg>`;
+}
+V.prehled = () => {
+  const f = Store.firma(), y = today().slice(0, 4), docs = Store.docs().filter(d => !d.storno);
+  if (!f.nazev) return `<h1>Vítej ve Fakturaci</h1><div class="card"><p>Zatím tu nejsou žádná data. V <a href="#nastaveni">Nastavení</a> připoj Google Disk (načte se stávající evidence), nebo vyplň údaje o firmě a začni v tomto zařízení.</p></div>`;
+  const vyd = docs.filter(d => d.typ === 'vydana'), rok = vyd.filter(d => (d.duzp || '').startsWith(y)), otev = vyd.filter(d => ['neuhrazeno', 'po', 'castecne'].includes(stavKod(d))), po = otev.filter(d => stavKod(d) === 'po');
+  const czkZb = d => r2(Banka.zbyva(d) * (d.mena && d.mena !== 'CZK' ? +d.kurz || 1 : 1));
+  const pm = new Date(); pm.setDate(0); const mo = pm.getFullYear() + '_' + String(pm.getMonth() + 1).padStart(2, '0');
+  let dph = '', dphS = ''; try { const r = DPH.build(Store.docs(), mo, f.epo_profil, fd(today())); dph = r.Z.dano_da ? kc(r.Z.dano_da) : r.Z.dano_no ? '−' + kc(r.Z.dano_no) : '0 Kč'; dphS = r.Z.dano_no ? 'nadměrný odpočet' : 'k úhradě do 25.'; } catch (e) { dph = '–'; dphS = 'nelze spočítat'; }
+  let dv = null; try { dv = Dane.vypocet(+y); } catch (e) {}
+  const top = {}; for (const d of rok) { const n = (d.partner || {}).nazev || '?'; top[n] = (top[n] || 0) + (+d.soucty.zaklad_czk || 0); }
+  const topL = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 5), topM = Math.max(1, ...topL.map(t => t[1]));
+  const ukoly = [], ym = today().slice(0, 7);
+  for (const d of po) ukoly.push(`<li><span><a href="#" onclick="go('vydana','${esc(d.cislo)}');return false">${esc(d.cislo)}</a> ${esc((d.partner || {}).nazev)} – po splatnosti od ${fd(d.splatnost)}</span><b class="nw">${kc(Banka.zbyva(d), d.mena)}</b></li>`);
+  for (const s of Store.sablony()) { const k = Store.kontakt(s.odberatel) || {}; if (!vyd.some(d => (d.partner || {}).nazev === k.nazev && (d.datum_vystaveni || '').startsWith(ym))) ukoly.push(`<li><span>Šablona „${esc(s.nazev)}“ – tento měsíc ještě nevystaveno</span><button class="sm" onclick="A.zeSablony('${esc(s.id)}')">Vystavit</button></li>`); }
+  const dnes = new Date(); if (dnes.getDate() <= 25) ukoly.push(`<li><span>DPH za ${MES[pm.getMonth()]} – podání a úhrada do 25. ${dnes.getMonth() + 1}.</span><a href="#dph">otevřít</a></li>`);
+  if (dirty.length) ukoly.push(`<li><span>${dirty.length} změn čeká na odeslání na Google Disk</span><a href="#" onclick="A.connect();return false">synchronizovat</a></li>`);
+  return `<div class="hd"><h1>Přehled</h1><button onclick="A.novaPrijata()">+ Přijatý doklad</button><button class="pri only-m" onclick="A.novaVydana()">+ Nová faktura</button></div>
+  <div class="cards"><div class="card stat"><span>Fakturováno ${y} (bez DPH)</span><b>${kc(rok.reduce((s, d) => s + (+d.soucty.zaklad_czk || 0), 0))}</b><small>${fakt(rok.length)}</small></div>
+    <div class="card stat"><span>Čeká na úhradu</span><b>${kc(otev.reduce((s, d) => s + czkZb(d), 0))}</b><small>${fakt(otev.length)}</small></div>
+    <div class="card stat ${po.length ? 'bad' : 'ok'}"><span>Po splatnosti</span><b>${kc(po.reduce((s, d) => s + czkZb(d), 0))}</b><small>${po.length ? fakt(po.length) : 'vše v pořádku'}</small></div>
+    <div class="card stat"><span>DPH za ${MES[pm.getMonth()]} ${pm.getFullYear()}</span><b>${dph}</b><small>${dphS}</small></div>
+    ${dv ? `<div class="card stat"><span>Odhad daně a pojistného ${y}</span><b>${kc(dv.poSleve + dv.soc.poj + dv.zdr.poj)}</b><small>z dosud přijatých úhrad ${kc(dv.prijmy)}</small></div>` : ''}</div>
+  <div class="two"><div class="card"><h3>Fakturace za posledních 12 měsíců (bez DPH)</h3>${grafMesice(vyd)}</div>
+    <div class="card"><h3>Co je potřeba</h3>${ukoly.length ? `<ul class="lst">${ukoly.join('')}</ul>` : '<p class="muted">Nic nehoří.</p>'}
+      <h3>Největší odběratelé ${y}</h3>${topL.length ? topL.map(([n, v]) => `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;gap:8px"><span>${esc(n)}</span><b class="nw">${kc(v)}</b></div><div class="bar"><i style="width:${Math.round(v / topM * 100)}%"></i></div></div>`).join('') : '<p class="muted">Letos zatím nic.</p>'}</div></div>
+  <h2>Poslední vydané faktury</h2>${tabVydane(vyd.sort((a, b) => (b.datum_vystaveni + b.cislo).localeCompare(a.datum_vystaveni + a.cislo)).slice(0, 6))}`;
+};
+
+/* ---------- banka: Fio – načtení pohybů a párování ---------- */
+let bank = null;
+const workerKod = () => `export default { async fetch(req) {
+  const cors = {'Access-Control-Allow-Origin': '${location.origin}', 'Access-Control-Allow-Headers': 'X-Fio-Token', 'Access-Control-Max-Age': '86400'};
+  if (req.method === 'OPTIONS') return new Response(null, {headers: cors});
+  const m = new URL(req.url).pathname.match(/^\\/fio\\/(\\d{4}-\\d\\d-\\d\\d)\\/(\\d{4}-\\d\\d-\\d\\d)$/), t = req.headers.get('X-Fio-Token') || '';
+  if (!m || !/^[A-Za-z0-9]{40,80}$/.test(t)) return new Response('bad request', {status: 400, headers: cors});
+  const r = await fetch('https://fioapi.fio.cz/v1/rest/periods/' + t + '/' + m[1] + '/' + m[2] + '/transactions.json');
+  return new Response(await r.text(), {status: r.status, headers: {...cors, 'Content-Type': 'application/json'}});
+}};`;
+V.banka = () => {
+  const n = Store.nast(), auto = n.banka.proxy && cfg.fioToken, od = addDays(today(), -35);
+  let body = '';
+  if (bank) { const nav = bank.filter(b => b.stav === 'navrh'), nen = bank.filter(b => b.stav === 'nenalezeno' && b.tx.castka > 0), hot = bank.filter(b => b.stav === 'hotovo').length;
+    const otev = Store.docs().filter(d => d.typ === 'vydana' && !d.storno && Banka.zbyva(d) > 0.004);
+    const radek = (b, i) => { const t = b.tx, pop = [t.nazev, t.vs ? 'VS ' + t.vs : '', t.zprava, t.reference && t.reference !== t.zprava ? 'ref. ' + t.reference : '', t.ident !== t.nazev ? t.ident : ''].filter(Boolean).join(' · ');
+      return `<tr><td class="nw">${fd(t.datum)}</td><td class="r"><b>${kc(t.castka, t.mena)}</b></td><td>${esc(pop)}</td><td>${b.doc ? `<a href="#" onclick="go('${b.doc.typ}','${esc(b.doc.cislo)}');return false">${esc(b.doc.cislo)}</a> ${esc((b.doc.partner || {}).nazev)}<br><span class="tag ${b.jiste ? 'ok' : 'warn'}">${{vs: 'variabilní symbol', cislo: 'číslo faktury v textu platby', castka: 'jen shoda částky', 'castka+nazev': 'částka a název plátce'}[b.jak]}</span>${!b.menaOk ? ' <span class="tag warn">jiná měna – kurz se dopočítá z platby</span>' : b.rozdil ? ` <span class="tag bad">rozdíl ${fmt(b.rozdil)}</span>` : ''}`
+        : `<select onchange="A.bankRucne(${i},this.value)"><option value="">— nepárovat —</option>${otev.map(d => `<option value="${esc(d.cislo)}">${esc(d.cislo)} · ${esc((d.partner || {}).nazev)} · ${kc(Banka.zbyva(d), d.mena)}</option>`).join('')}</select>`}</td>
+        <td>${b.doc ? `<input type="checkbox" ${b.ok ? 'checked' : ''} onchange="bank[${i}].ok=this.checked">` : ''}</td></tr>`; };
+    body = `<div class="cards"><div class="card stat"><span>Pohybů ve výpisu</span><b>${bank.length}</b></div><div class="card stat ok"><span>Spárováno k zapsání</span><b>${nav.length}</b></div><div class="card stat"><span>Příchozí bez dokladu</span><b>${nen.length}</b></div><div class="card stat"><span>Už zapsáno dříve</span><b>${hot}</b></div></div>
+    ${nav.length + nen.length ? `<div class="card flat"><div class="tw"><table><thead><tr><th>Datum</th><th class="r">Částka</th><th>Plátce / příjemce a text platby</th><th>Doklad</th><th>Zapsat</th></tr></thead><tbody>${bank.map((b, i) => b.stav === 'navrh' || (b.stav === 'nenalezeno' && b.tx.castka > 0) ? radek(b, i) : '').join('')}</tbody></table></div></div>
+    <div class="row"><button class="pri" onclick="A.bankZapis()">Zapsat zaškrtnuté úhrady</button><button onclick="bank=null;render()">Zahodit výpis</button></div>` : '<div class="card muted">Ve výpisu není žádná nová platba k dokladům v evidenci.</div>'}`;
+  }
+  return `<div class="hd"><h1>Banka</h1></div>
+  <div class="card"><h3>Načíst pohyby z Fio banky</h3><div class="row"><label class="btn pri">Nahrát výpis (CSV nebo JSON)<input type="file" accept=".csv,.json,.txt" hidden onchange="A.bankSoubor(this.files[0])"></label>
+    ${auto ? `<input type="date" id="b_od" value="${od}"><input type="date" id="b_do" value="${today()}"><button onclick="A.bankFio()">Stáhnout z Fio</button>` : ''}</div>
+    <p class="muted">Výpis stáhneš v internetbankingu Fio: Přehledy → Pohyby na účtu → Export → CSV. ${auto ? '' : 'Automatické stahování jedním tlačítkem zapneš v <a href="#nastaveni">Nastavení → Banka</a>.'}
+    Platby se párují podle variabilního symbolu, a pokud chybí (typicky u SEPA plateb v EUR), podle čísla faktury nalezeného kdekoli v textu platby. Shoda jen podle částky je vždy pouze návrh k potvrzení.</p></div>${body}`;
+};
+function bankNacti(text) { const txs = Banka.parseFio(text); bank = Banka.match(txs, Store.docs()); bank.forEach(b => { if (b.stav === 'navrh') b.ok = !!b.jiste; }); render(); toast(`Načteno ${txs.length} pohybů.`); }
+A.bankSoubor = async file => { if (!file) return; try { let t = await file.text(); if (t.includes('�')) t = new TextDecoder('windows-1250').decode(await file.arrayBuffer()); bankNacti(t); } catch (e) { toast(e.message, true); } };
+A.bankFio = async () => { const n = Store.nast(), od = $('#b_od').value, doo = $('#b_do').value;
+  try { const r = await fetch(n.banka.proxy.replace(/\/+$/, '') + `/fio/${od}/${doo}`, {headers: {'X-Fio-Token': cfg.fioToken}});
+    if (r.status === 409) throw new Error('Fio dovoluje jeden dotaz za 30 sekund – zkus to za chvíli.'); if (!r.ok) throw new Error('Fio odpovědělo chybou ' + r.status + ' (zkontroluj token a adresu proxy).');
+    bankNacti(await r.text()); } catch (e) { toast(e.message === 'Failed to fetch' ? 'Proxy není dostupná – zkontroluj adresu v Nastavení.' : e.message, true); } };
+A.bankRucne = (i, cislo) => { const b = bank[i]; if (!cislo) return; const d = Store.get(cislo, 'vydana'), menaOk = (d.mena || 'CZK') === b.tx.mena; Object.assign(b, {doc: d, jak: 'castka', stav: 'navrh', jiste: false, menaOk, rozdil: menaOk ? r2(Math.abs(b.tx.castka) - Banka.zbyva(d)) : null, ok: true}); render(); };
+A.bankZapis = async () => { const sel = bank.filter(b => b.stav === 'navrh' && b.ok); if (!sel.length) return toast('Není nic zaškrtnuto.', true); let nOk = 0;
+  for (const b of sel) { const d = Store.get(b.doc.cislo, b.doc.typ), t = b.tx, cizi = d.mena && d.mena !== 'CZK', u = {datum: t.datum, castka: Math.abs(t.castka), banka_id: t.id, zdroj: 'fio'};
+    if (!b.menaOk) { u.castka = Banka.zbyva(d); if (t.mena === 'CZK' && u.castka) u.kurz = +(Math.abs(t.castka) / u.castka).toFixed(4); }
+    else if (cizi) { try { u.kurz = await cnbKurz(d.mena, t.datum); } catch (e) {} }
+    await novaVerze(d, {uhrady: (d.uhrady || []).concat([u])}); nOk++; }
+  bank = null; toast(`Zapsáno ${nOk} úhrad.`); render(); };
+
+/* ---------- daň z příjmů, přehled ČSSZ a zdravotní pojišťovna ---------- */
+V.dan = () => {
+  dpRok = dpRok || (new Date().getMonth() < 6 ? new Date().getFullYear() - 1 : new Date().getFullYear()); const n = Store.nast(), dp = n.dan_prijmy, v = Dane.vypocet(dpRok), e = v.e, s = v.soc, z = v.zdr, ys = [];
+  for (let y = new Date().getFullYear(); y >= 2023; y--) ys.push(y);
+  const o = n.osoba, chybi = [!o.rodne_cislo && 'rodné číslo', !o.datum_narozeni && 'datum narození', !o.cssz_vs && 'variabilní symbol ČSSZ', !o.cssz_ossz && 'kód OSSZ'].filter(Boolean);
+  const val = m => (m || {})[dpRok] ?? '', tr = (t, x, b) => `<tr><td>${t}</td><td class="r">${b ? '<b>' : ''}${typeof x === 'number' ? kc(x) : x}${b ? '</b>' : ''}</td></tr>`;
+  return `<div class="hd"><h1>Daň z příjmů a pojistné</h1><select style="width:auto" onchange="dpRok=+this.value;render()">${ys.map(y => `<option${y === dpRok ? ' selected' : ''}>${y}</option>`).join('')}</select></div>
+  ${v.p.odhad ? `<div class="card warn">Pro rok ${dpRok} zatím nejsou v aplikaci úřední parametry (průměrná mzda, minimální základy) – počítám s hodnotami posledního známého roku. Uprav je v Nastavení → Daň z příjmů.</div>` : ''}
+  ${e.odhad && !v.rucne ? `<div class="card warn">U ${e.odhad} úhrad v cizí měně chybí kurz ČNB ke dni úhrady, příjmy jsou zatím přepočtené kurzem faktury. <button class="sm" onclick="A.doplnKurzy(${dpRok})">Doplnit kurzy ke dni úhrady</button></div>` : ''}
+  <div class="cards"><div class="card stat"><span>Příjmy ${v.rucne ? '(zadané ručně)' : '(úhrady v roce, bez DPH)'}</span><b>${kc(v.prijmy)}</b><small>fakturováno podle DUZP ${kc(e.fakturovano)}</small></div>
+    <div class="card stat"><span>Výdaje paušálem ${v.pausal} %</span><b>${kc(v.vydaje)}</b><small>základ daně § 7: ${kc(v.zd7)}</small></div>
+    <div class="card stat"><span>Daň po slevě</span><b>${kc(v.poSleve)}</b><small>${v.doplatekDan >= 0 ? 'doplatek' : 'přeplatek'} ${kc(Math.abs(v.doplatekDan))}</small></div>
+    <div class="card stat"><span>Sociální pojištění</span><b>${kc(s.poj)}</b><small>${s.ned >= 0 ? 'doplatek' : 'přeplatek'} ${kc(Math.abs(s.ned))}</small></div>
+    <div class="card stat"><span>Zdravotní pojištění</span><b>${kc(z.poj)}</b><small>${z.ned >= 0 ? 'doplatek' : 'přeplatek'} ${kc(Math.abs(z.ned))}</small></div></div>
+  <div class="card" id="dp"><h3>Doplňující údaje za rok ${dpRok}</h3><div class="grid">${fld('Příjmy ručně (prázdné = z evidence)', 'rucne', val(dp.rucne), 'text', 'inputmode="decimal"')}${fld('Dílčí základ § 8 (úroky, dividendy)', 'zd8', val(dp.zd8), 'text', 'inputmode="decimal"')}
+    ${fld('Zaplacené zálohy na daň', 'zalohy_dan', val(dp.zalohy_dan), 'text', 'inputmode="decimal"')}${fld('Zaplacené zálohy ČSSZ', 'zalohy_soc', val(dp.zalohy_soc), 'text', 'inputmode="decimal"')}${fld('Zaplacené zálohy zdravotní', 'zalohy_zdr', val(dp.zalohy_zdr), 'text', 'inputmode="decimal"')}</div>
+    <div class="row"><button class="pri" onclick="A.ulozDan()">Uložit a přepočítat</button></div></div>
+  <div class="two"><div class="card"><h3>Přiznání k dani z příjmů (DPFDP7)</h3><table><tbody>${tr('Příjmy ze samostatné činnosti (ř. 101)', v.prijmy)}${tr('Výdaje (ř. 102)', v.vydaje)}${tr('Dílčí základ daně § 7 (ř. 37)', v.zd7)}${v.zd8 ? tr('Dílčí základ daně § 8 (ř. 38)', v.zd8) : ''}${tr('Základ daně zaokrouhlený (ř. 56)', v.zaokr)}${tr('Daň (ř. 57)', v.dan)}${tr('Sleva na poplatníka (ř. 64)', v.sleva)}${tr('Daň po slevách (ř. 74)', v.poSleve, 1)}${tr('Zaplacené zálohy (ř. 85)', v.zalDan)}${tr(v.doplatekDan >= 0 ? 'Zbývá doplatit (ř. 91)' : 'Přeplatek (ř. 91)', Math.abs(v.doplatekDan), 1)}</tbody></table>
+      <div class="row"><button class="pri" onclick="A.danXml()">Stáhnout přiznání (XML pro EPO)</button></div>
+      <p class="muted">XML obsahuje příjmy z podnikání s výdajovým paušálem a základní slevu, stejně jako export z iDokladu. Načteš ho na portálu MOJE daně (EPO → Načíst ze souboru) a tam doplníš případné další příjmy, slevy na děti nebo odpočty; portál vše přepočítá a zkontroluje.</p></div>
+    <div><div class="card"><h3>Přehled OSVČ pro ČSSZ</h3><table><tbody>${tr('Daňový základ (ř. 1)', v.zd7)}${tr(`Vyměřovací základ ${v.p.soc_pct} %`, s.vvz)}${tr('Minimální vyměřovací základ', s.min)}${tr('Pojistné 29,2 %', s.poj, 1)}${tr('Zaplacené zálohy', s.zal)}${tr(s.ned >= 0 ? 'Doplatek' : 'Přeplatek', Math.abs(s.ned), 1)}${tr('Nová měsíční záloha', s.novaZal, 1)}</tbody></table>
+      <div class="row"><button class="pri" onclick="A.osvcXml()" ${chybi.length ? 'disabled' : ''}>Stáhnout přehled (XML pro ePortál ČSSZ)</button></div>
+      ${chybi.length ? `<p class="muted">Pro XML doplň v Nastavení → Daň z příjmů: ${chybi.join(', ')}.</p>` : `<p class="muted">Soubor nahraješ na ePortálu ČSSZ ve formuláři Přehled OSVČ (Načíst data). Struktura odpovídá formuláři za rok 2025; ČSSZ vydává nový formulář každý leden.</p>`}</div>
+    <div class="card"><h3>Přehled OSVČ pro zdravotní pojišťovnu${o.zp_nazev ? ' (' + esc(o.zp_nazev) + ')' : ''}</h3><table><tbody>${tr('Příjmy', v.prijmy)}${tr('Výdaje', v.vydaje)}${tr('Vyměřovací základ 50 %', z.vz)}${tr('Minimální vyměřovací základ', z.min)}${tr('Pojistné 13,5 %', z.poj, 1)}${tr('Zaplacené zálohy', z.zal)}${tr(z.ned >= 0 ? 'Doplatek' : 'Přeplatek', Math.abs(z.ned), 1)}${tr('Nová měsíční záloha', z.novaZal, 1)}</tbody></table>
+      <p class="muted">Zdravotní pojišťovny nemají jednotný soubor pro nahrání; tyto hodnoty opíšeš do online formuláře své pojišťovny.</p></div></div></div>
+  ${e.neuhr.length ? `<p class="muted">Neuhrazené faktury (do příjmů se počítají až po úhradě): ${e.neuhr.map(d => esc(d.cislo)).join(', ')}</p>` : ''}
+  <h2>Přijaté úhrady ${dpRok}</h2><div class="card flat"><div class="tw"><table><thead><tr><th>Faktura</th><th>Odběratel</th><th>Uhrazeno</th><th class="r">Kurz</th><th class="r">Základ Kč</th></tr></thead><tbody>${e.radky.map(x => `<tr class="clk" onclick="go('vydana','${esc(x.cislo)}')"><td>${esc(x.cislo)}</td><td>${esc(x.partner)}</td><td>${fd(x.datum)}</td><td class="r">${x.kurz ? fmt(x.kurz, 3) + (x.odhad ? ' *' : '') : ''}</td><td class="r">${fmt(x.zaklad)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td colspan="4">Celkem${e.odhad ? ' (* kurz faktury, ne kurz ke dni úhrady)' : ''}</td><td class="r">${fmt(e.prijmy)}</td></tr></tfoot></table></div></div>`;
+};
+async function saveNast(patch) { const n = JSON.parse(JSON.stringify(Store.files['nastaveni.json'] || {})); for (const k in patch) n[k] = Object.assign({}, n[k] || {}, patch[k]); await save('nastaveni.json', n); }
+A.ulozDan = async () => { const v = collect($('#dp')), dp = Store.nast().dan_prijmy, p = {};
+  for (const k of ['rucne', 'zd8', 'zalohy_dan', 'zalohy_soc', 'zalohy_zdr']) { p[k] = Object.assign({}, dp[k] || {}); if (v[k] === '') delete p[k][dpRok]; else p[k][dpRok] = num(v[k]); }
+  await saveNast({dan_prijmy: p}); toast('Uloženo.'); render(); };
+A.danXml = () => download(`DPFDP7-${dpRok}.xml`, Dane.dpfdp7(dpRok), 'text/xml');
+A.osvcXml = () => download(`OSVC-${dpRok}.xml`, Dane.osvc(dpRok), 'text/xml');
+A.doplnKurzy = async rok => { let n = 0, chyb = 0; toast('Načítám kurzy ČNB…');
+  for (const d of Store.docs()) { if (d.typ !== 'vydana' || d.storno || !d.mena || d.mena === 'CZK') continue; const us = (d.uhrady || []); if (!us.some(u => !u.kurz && (u.datum || '').startsWith(String(rok)))) continue;
+    const nove = []; for (const u of us) { if (!u.kurz && (u.datum || '').startsWith(String(rok))) { try { nove.push(Object.assign({}, u, {kurz: await cnbKurz(d.mena, u.datum)})); n++; } catch (e) { nove.push(u); chyb++; } } else nove.push(u); }
+    await novaVerze(d, {uhrady: nove}); }
+  toast(`Doplněno ${n} kurzů${chyb ? ', ' + chyb + ' se nepodařilo načíst' : ''}.`, !!chyb); render(); };
+
+/* ---------- nastavení ---------- */
+V.nastaveni = () => {
+  const f = Store.firma(), n = Store.nast(), u = f.ucty || {}, c = u.CZK || {}, e = u.EUR || {}, o = n.osoba, rok = new Date().getFullYear(), p = Dane.param(rok);
+  return `<h1>Nastavení</h1>
+  <div class="card" id="s-firma"><h3>Firma</h3><div class="grid">${fld('Název / jméno', 'nazev', f.nazev)}${fld('Ulice a číslo', 'ulice', f.ulice)}${fld('Město', 'mesto', f.mesto)}${fld('PSČ', 'psc', f.psc)}${fld('IČO', 'ico', f.ico)}${fld('DIČ', 'dic', f.dic)}${fld('E-mail', 'email', f.email)}${fld('Telefon', 'telefon', f.telefon)}${fld('Konstantní symbol', 'konstantni_symbol', f.konstantni_symbol)}</div>
+  <h3>Bankovní účty</h3><div class="grid">${fld('Účet CZK', 'czk_cislo', c.cislo)}${fld('IBAN CZK', 'czk_iban', c.iban)}${fld('SWIFT CZK', 'czk_swift', c.swift)}${fld('Účet EUR', 'eur_cislo', e.cislo)}${fld('IBAN EUR', 'eur_iban', e.iban)}${fld('SWIFT EUR', 'eur_swift', e.swift)}</div>
+  <div class="row"><button class="pri" onclick="A.ulozFirmu()">Uložit firmu a účty</button></div></div>
+  <div class="card" id="s-nast"><h3>Číselné řady</h3><p class="muted">RRRR = rok, RR = rok dvoumístně, MM = měsíc, NNN = pořadí v roce (počet N = počet číslic). Další číslo: vydané <b>${esc(tryNext(n.rady.vydane, 'vydana'))}</b>, přijaté <b>${esc(tryNext(n.rady.prijate, 'prijata'))}</b>.</p>
+  <div class="grid">${fld('Vydané faktury', 'r_vydane', n.rady.vydane)}${fld('Přijaté doklady', 'r_prijate', n.rady.prijate)}</div>
+  <h3>Vzhled a texty faktury</h3><div class="grid">${fld('Výchozí splatnost (dní)', 'f_splatnost', n.faktura.splatnost_dni, 'number')}${fld('Barva faktury', 'f_barva', n.faktura.barva, 'color')}
+    <label class="f"><span>Logo (PNG/JPG do 150 kB)</span><input type="file" accept="image/png,image/jpeg,image/svg+xml" onchange="A.logo(this.files[0])"></label>
+    <label class="f chk"><input type="checkbox" data-k="f_epc" ${n.faktura.epc_qr !== false ? 'checked' : ''}><span>SEPA QR kód na fakturách v EUR</span></label></div>
+  ${n.faktura.logo ? `<div class="row"><img src="${esc(n.faktura.logo)}" style="max-height:44px" alt=""><button class="sm" onclick="A.logo(null)">Odebrat logo</button></div>` : ''}
+  <div class="grid" style="margin-top:12px">${fld('Výchozí text – česky', 'f_text_cs', n.faktura.text_cs)}${fld('Výchozí text – anglicky', 'f_text_en', n.faktura.text_en)}${fld('Výchozí text – německy', 'f_text_de', n.faktura.text_de)}</div>
+  <h3>Platba DPH finančnímu úřadu</h3><div class="grid">${fld('Název úřadu', 'fu_nazev', n.fu.nazev)}${fld('Účet', 'fu_ucet', n.fu.ucet)}${fld('IBAN', 'fu_iban', n.fu.iban)}${fld('BIC', 'fu_bic', n.fu.bic)}${fld('Variabilní symbol', 'fu_vs', n.fu.vs)}${fld('Zpráva pro příjemce', 'fu_zprava', n.fu.zprava)}</div>
+  <div class="row"><button class="pri" onclick="A.ulozNast()">Uložit řady, fakturu a platbu DPH</button></div></div>
+  <div class="card" id="s-dan"><h3>Daň z příjmů a pojistné</h3><div class="grid">${sel('Výdajový paušál', 'pausal', n.dan_prijmy.pausal, [[80, '80 %'], [60, '60 %'], [40, '40 %'], [30, '30 %']])}${fld('Titul', 'titul', o.titul)}${fld('Rodné číslo', 'rodne_cislo', o.rodne_cislo)}${fld('Datum narození', 'datum_narozeni', o.datum_narozeni, 'date')}
+    ${fld('Variabilní symbol ČSSZ', 'cssz_vs', o.cssz_vs)}${fld('Kód OSSZ (např. 772)', 'cssz_ossz', o.cssz_ossz)}${fld('Měsíční nemocenské pojištění (Kč, nepovinné)', 'nemocenske', o.nemocenske)}${fld('Zdravotní pojišťovna', 'zp_nazev', o.zp_nazev)}</div>
+  <h3>Parametry roku ${rok}</h3><p class="muted">Hodnoty vyhlašované každý rok. ${p.odhad ? '<b>Pro tento rok nejsou v aplikaci úřední hodnoty – doplň je.</b>' : 'Uprav jen při změně zákona.'}</p>
+  <div class="grid">${fld('Hranice pro sazbu 23 %', 'hran23', p.hran23, 'number')}${fld('Sleva na poplatníka', 'sleva', p.sleva, 'number')}${fld('Min. měsíční základ – sociální', 'soc_min', p.soc_min, 'number')}${fld('Max. roční základ – sociální', 'soc_max', p.soc_max, 'number')}${fld('Min. měsíční základ – zdravotní', 'zdr_min', p.zdr_min, 'number')}${fld('Vyměřovací základ soc. (% ze základu daně)', 'soc_pct', p.soc_pct, 'number')}</div>
+  <div class="row"><button class="pri" onclick="A.ulozDanNast(${rok})">Uložit daňové údaje</button></div></div>
+  <div class="card" id="s-banka"><h3>Banka (Fio)</h3><p class="muted">Výpis jde vždy nahrát ručně v sekci Banka. Pro stahování jedním tlačítkem je potřeba malý prostředník, protože Fio nedovoluje webovým stránkám volat své API přímo. Prostředník si zdarma založíš ve vlastním účtu Cloudflare (Workers) vložením kódu níže; token tak prochází jen tvým vlastním účtem. Token si ve Fio vytvoř s oprávněním <b>pouze ke čtení</b>. Ukládá se jen v tomto zařízení, ne na Disk.</p>
+  <div class="grid">${fld('Adresa prostředníka (https://…workers.dev)', 'proxy', n.banka.proxy)}${fld('Fio API token (jen čtení)', 'fioToken', cfg.fioToken || '', 'password', 'autocomplete="off"')}</div>
+  <div class="row"><button class="pri" onclick="A.ulozBanku()">Uložit</button><button onclick="navigator.clipboard.writeText(workerKod()).then(()=>toast('Kód zkopírován.'))">Zkopírovat kód prostředníka</button></div><pre class="code">${esc(workerKod())}</pre></div>
+  <div class="card" id="s-disk"><h3>Google Disk</h3><p class="muted">Data se ukládají do složky <b>_Fakturace/data</b> na tvém Google Disku. ${G.last ? 'Poslední synchronizace ' + new Date(G.last).toLocaleString('cs-CZ') + '.' : ''} ${dirty.length ? dirty.length + ' změn čeká na odeslání.' : ''}</p>
+  <div class="grid">${fld('Google Client ID', 'clientId', cfg.clientId)}${fld('ID složky data (nepovinné)', 'folderId', cfg.folderId)}</div>
+  <div class="row"><button class="pri" onclick="A.connect(true)">${tokenOk() ? 'Synchronizovat teď' : 'Uložit a připojit'}</button></div></div>
+  <div class="card"><h3>Záloha</h3><div class="row"><button onclick="A.exportAll()">Stáhnout zálohu všech dat (JSON)</button><label class="btn">Nahrát zálohu<input type="file" accept=".json" hidden onchange="A.importAll(this.files[0])"></label></div><p class="muted">Verze aplikace 2.0</p></div>`;
+};
+A.ulozNast = async () => { const v = collect($('#s-nast')); try { nextNumber(v.r_vydane, today(), []); nextNumber(v.r_prijate, today(), []); } catch (e) { return toast(e.message, true); }
+  await saveNast({rady: {vydane: v.r_vydane, prijate: v.r_prijate}, faktura: {splatnost_dni: parseInt(v.f_splatnost, 10) || 14, text_cs: v.f_text_cs, text_en: v.f_text_en, text_de: v.f_text_de, barva: v.f_barva, epc_qr: !!v.f_epc},
+    fu: {nazev: v.fu_nazev, ucet: v.fu_ucet, iban: v.fu_iban.replace(/\s/g, ''), bic: v.fu_bic, vs: v.fu_vs, zprava: v.fu_zprava}}); toast('Nastavení uloženo.'); render(); };
+A.logo = async file => { if (!file) { await saveNast({faktura: {logo: ''}}); return render(); } if (file.size > 150000) return toast('Logo je větší než 150 kB – zmenši ho.', true);
+  const r = new FileReader(); r.onload = async () => { await saveNast({faktura: {logo: r.result}}); toast('Logo uloženo.'); render(); }; r.readAsDataURL(file); };
+A.ulozDanNast = async rok => { const v = collect($('#s-dan')), def = Dane.PARAM[rok] || {}, par = {};
+  for (const k of ['hran23', 'sleva', 'soc_min', 'soc_max', 'zdr_min', 'soc_pct']) if (v[k] !== '' && +v[k] !== def[k]) par[k] = +v[k];
+  const n = JSON.parse(JSON.stringify(Store.files['nastaveni.json'] || {})); n.dan_prijmy = Object.assign({}, n.dan_prijmy || {}, {pausal: +v.pausal});
+  n.osoba = {titul: v.titul, rodne_cislo: digits(v.rodne_cislo), datum_narozeni: v.datum_narozeni, cssz_vs: digits(v.cssz_vs), cssz_ossz: digits(v.cssz_ossz), nemocenske: digits(v.nemocenske), zp_nazev: v.zp_nazev};
+  n.parametry = Object.assign({}, n.parametry || {}); if (Object.keys(par).length) n.parametry[rok] = par; else delete n.parametry[rok];
+  await save('nastaveni.json', n); toast('Uloženo.'); render(); };
+A.ulozBanku = async () => { const v = collect($('#s-banka')); if (v.proxy && !/^https:\/\//.test(v.proxy)) return toast('Adresa prostředníka musí začínat https://', true);
+  cfg.fioToken = v.fioToken; LS.set('fak_cfg', cfg); await saveNast({banka: {proxy: v.proxy}}); toast('Uloženo.'); render(); };
+A.connect = async fromForm => { try { if (fromForm) { const v = collect($('#s-disk')); cfg = Object.assign({}, cfg, {clientId: v.clientId, folderId: v.folderId}); LS.set('fak_cfg', cfg); }
+  if (!tokenOk()) await gLogin(); await sync(); toast('Synchronizováno s Google Diskem.'); render(); } catch (e) { toast(e.message, true); status(); } };
+
 /* ---------- start ---------- */
-const TOP = ['prehled', 'vydane', 'prijate', 'kontakty', 'sablony', 'dph', 'dan', 'nastaveni'];
-window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (TOP.includes(v) && v !== cur.view) go(v); });
+window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (TOP.includes(v) && v !== cur.view && v !== 'hledat') go(v); });
 window.addEventListener('DOMContentLoaded', () => {
+  shell();
   try { const t = JSON.parse(sessionStorage.getItem('fak_tok') || 'null'); if (t && Date.now() < t.exp) { G.token = t.token; G.exp = t.exp; } } catch (e) {}
-  const v = location.hash.slice(1); go(TOP.includes(v) ? v : 'prehled');
+  const v = location.hash.slice(1); go(TOP.includes(v) && v !== 'hledat' ? v : 'prehled');
   if (tokenOk()) sync().then(render).catch(e => toast(e.message, true));
 });
 </script>
